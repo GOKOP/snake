@@ -11,12 +11,12 @@ class Snake {
 public:
 	Snake(IntPair start_pos, Direction start_direction);
 
-	int get_body_size();
-	IntPair get_body_piece_pos(int index);
-	bool is_fed();
+	int getBodySize();
+	IntPair getBodyPiecePos(int index);
+	bool isFed();
 
 	void feed();
-	void advance_pos();
+	void advancePos();
 	void turn(Direction new_direction);
 };
 

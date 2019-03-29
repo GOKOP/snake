@@ -20,8 +20,8 @@ WINDOW* curses_init(bool first, IntPair win_size);
 IntPair find_centered_pos(IntPair win_size, IntPair term_size);
 void print_char(WINDOW* win, IntPair pos, chtype ch);
 void print_win(WINDOW* win, Snake snake, GameState state);
-GameState advance_game(Snake &snake, IntPair win_size);
-void process_input(WINDOW* win, Snake &snake);
+GameState advanceGame(Snake &snake, IntPair win_size);
+void processInput(WINDOW* win, Snake &snake);
 
 int main() {
 	IntPair win_size(40,20);
@@ -30,9 +30,9 @@ int main() {
 	GameState state = RUNNING;
 	
 	while(true) {
-		process_input(win, snake);
+		processInput(win, snake);
 		if(state != LOST)
-			state = advance_game(snake, win_size);
+			state = advanceGame(snake, win_size);
 		print_win(win, snake, state);
 		millisleep(10);
 	}
@@ -86,28 +86,28 @@ void print_win(WINDOW* win, Snake snake, GameState state) {
 	werase(win);
 	wborder(win, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER);
 	
-	for(int i=0; i<snake.get_body_size(); ++i) {
+	for(int i=0; i<snake.getBodySize(); ++i) {
 		if(i==0)
-			print_char(win, snake.get_body_piece_pos(i), SNAKE_HEAD);
+			print_char(win, snake.getBodyPiecePos(i), SNAKE_HEAD);
 		else
-			print_char(win, snake.get_body_piece_pos(i), SNAKE_BODY);
+			print_char(win, snake.getBodyPiecePos(i), SNAKE_BODY);
 	}
 
 	if(state == LOST)
-		print_char(win, snake.get_body_piece_pos(0), SNAKE_DEAD);
+		print_char(win, snake.getBodyPiecePos(0), SNAKE_DEAD);
 
 	wrefresh(win);
 }
 
-GameState advance_game(Snake &snake, IntPair win_size) {
-	snake.advance_pos();	
+GameState advanceGame(Snake &snake, IntPair win_size) {
+	snake.advancePos();	
 	
-	if(snake.get_body_piece_pos(0).x==0 || snake.get_body_piece_pos(0).y==0 ||
-	   snake.get_body_piece_pos(0).x==win_size.x-1 || snake.get_body_piece_pos(0).y==win_size.y-1)
+	if(snake.getBodyPiecePos(0).x==0 || snake.getBodyPiecePos(0).y==0 ||
+	   snake.getBodyPiecePos(0).x==win_size.x-1 || snake.getBodyPiecePos(0).y==win_size.y-1)
 		return LOST;
 	else {
-		for(int i=1; i<snake.get_body_size(); ++i) {
-			if(snake.get_body_piece_pos(0) == snake.get_body_piece_pos(i))
+		for(int i=1; i<snake.getBodySize(); ++i) {
+			if(snake.getBodyPiecePos(0) == snake.getBodyPiecePos(i))
 				return LOST;
 		}
 	}
@@ -115,7 +115,7 @@ GameState advance_game(Snake &snake, IntPair win_size) {
 	return RUNNING;
 }
 
-void process_input(WINDOW* win, Snake &snake) {
+void processInput(WINDOW* win, Snake &snake) {
 	switch(wgetch(win)) {
 		case KEY_UP:
 			snake.turn(UP); break;

@@ -17,8 +17,8 @@ class BodyPiece {
 public:
 	BodyPiece(IntPair new_pos, Direction new_direction);
 
-	IntPair get_pos();
-	Direction get_direction();
+	IntPair getPos();
+	Direction getDirection();
 
 	void move(Direction new_direction); //piece will take new_direction after moving
 	void turn(Direction new_direction); //using for sth else than head will make stuff weird

@@ -5,15 +5,15 @@ Snake::Snake(IntPair start_pos, Direction start_direction) {
 	fed = true;
 }
 
-int Snake::get_body_size() {
+int Snake::getBodySize() {
 	return body.size();
 }
 
-IntPair Snake::get_body_piece_pos(int index) {
-	return body[index].get_pos();	
+IntPair Snake::getBodyPiecePos(int index) {
+	return body[index].getPos();	
 }
 
-bool Snake::is_fed() {
+bool Snake::isFed() {
 	return fed;
 }
 
@@ -21,19 +21,19 @@ void Snake::feed() {
 	fed = true;
 }
 
-void Snake::advance_pos() {
+void Snake::advancePos() {
 	for(int i=body.size()-1; i>=0; --i) {
 		if(i==body.size()-1 && fed) {
-			IntPair old_pos         = body[i].get_pos();
-			Direction old_direction = body[i].get_direction();
+			IntPair old_pos         = body[i].getPos();
+			Direction old_direction = body[i].getDirection();
 			body.push_back(BodyPiece(old_pos, old_direction));
 			fed = false;
 		}
 
 		if(i==0)
-			body[i].move(body[i].get_direction());
+			body[i].move(body[i].getDirection());
 		else
-			body[i].move(body[i-1].get_direction());
+			body[i].move(body[i-1].getDirection());
 	}
 }
 

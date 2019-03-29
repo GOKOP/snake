@@ -5,11 +5,11 @@ BodyPiece::BodyPiece(IntPair new_pos, Direction new_direction) {
 	direction = new_direction;
 }
 
-IntPair BodyPiece::get_pos() {
+IntPair BodyPiece::getPos() {
 	return pos;
 }
 
-Direction BodyPiece::get_direction() {
+Direction BodyPiece::getDirection() {
 	return direction;
 }
 
