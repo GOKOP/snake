@@ -4,11 +4,7 @@
 
 #include "IntPair.hpp"
 #include "Snake.hpp"
-
-#define SNAKE_HEAD '@'
-#define SNAKE_DEAD 'X'
-#define SNAKE_BODY 'O'
-#define BORDER '#'
+#include "Display.hpp"
 
 enum GameState {
 	RUNNING,
@@ -16,24 +12,26 @@ enum GameState {
 };
 
 void millisleep(int millisec);
-WINDOW* cursesInit(bool first, IntPair win_size);
-IntPair findCenteredPos(IntPair win_size, IntPair term_size);
-void printChar(WINDOW* win, IntPair pos, chtype ch);
-void printWin(WINDOW* win, Snake snake, GameState state);
 GameState advanceGame(Snake &snake, IntPair win_size);
 void processInput(WINDOW* win, Snake &snake);
 
 int main() {
 	IntPair win_size(40,20);
-	WINDOW* win = cursesInit(true, win_size);
+	Display display(win_size);
 	Snake snake(IntPair(20,10), RIGHT);
 	GameState state = RUNNING;
 	
 	while(true) {
-		processInput(win, snake);
+		processInput(display.getWindow(), snake);
+
 		if(state != LOST)
 			state = advanceGame(snake, win_size);
-		printWin(win, snake, state);
+		
+		display.printWin(snake);
+		
+		if(state == LOST)
+			display.printDead(snake.getBodyPiecePos(0));
+
 		millisleep(10);
 	}
 
@@ -43,60 +41,6 @@ int main() {
 
 void millisleep(int millisec) {
 	usleep(millisec*10000);
-}
-
-WINDOW* cursesInit(bool first, IntPair win_size) {
-	if(first==true) {
-		initscr();
-		cbreak();
-		noecho();
-		curs_set(0);
-	}
-	
-	IntPair term_size; 
-	getmaxyx(stdscr, term_size.y, term_size.x);
-
-	IntPair win_pos = findCenteredPos(win_size, term_size);
-	WINDOW* win = newwin(win_size.y, win_size.x, win_pos.y, win_pos.x);
-	nodelay(win, TRUE);
-	keypad(win, TRUE);
-
-	return win;
-}
-
-IntPair findCenteredPos(IntPair win_size, IntPair term_size) {
-	IntPair centered_pos;
-	centered_pos.x = term_size.x/2 - win_size.x/2;
-	centered_pos.y = term_size.y/2 - win_size.y/2;
-
-	return centered_pos;
-}
-
-void printChar(WINDOW* win, IntPair pos, chtype ch) {
-	IntPair max_pos;
-	getmaxyx(win, max_pos.y, max_pos.x);
-
-	if(pos.x>=0 && pos.x<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
-		wmove(win, pos.y, pos.x);
-		waddch(win, ch);
-	}
-}
-
-void printWin(WINDOW* win, Snake snake, GameState state) {
-	werase(win);
-	wborder(win, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER);
-	
-	for(int i=0; i<snake.getBodySize(); ++i) {
-		if(i==0)
-			printChar(win, snake.getBodyPiecePos(i), SNAKE_HEAD);
-		else
-			printChar(win, snake.getBodyPiecePos(i), SNAKE_BODY);
-	}
-
-	if(state == LOST)
-		printChar(win, snake.getBodyPiecePos(0), SNAKE_DEAD);
-
-	wrefresh(win);
 }
 
 GameState advanceGame(Snake &snake, IntPair win_size) {
