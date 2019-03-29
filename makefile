@@ -1,2 +1,2 @@
 compile: 
-	g++ src/* -Isrc -lncurses -o snake;
+	g++ src/*.cpp -Isrc -lncurses -o snake;
