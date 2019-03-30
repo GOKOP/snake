@@ -34,7 +34,7 @@ IntPair Display::findCenteredPos(IntPair win_size, IntPair term_size) {
 	return centered_pos;
 }
 
-void Display::printChar(IntPair pos, chtype ch) {
+void Display::printChar(IntPair pos, char ch) {
 	IntPair max_pos;
 	getmaxyx(win, max_pos.y, max_pos.x);
 

@@ -22,7 +22,7 @@ public:
 
 	void cursesInit();
 	void windowInit(IntPair win_size);
-	void printChar(IntPair pos, chtype ch);
+	void printChar(IntPair pos, char ch);
 	void printWin(Snake snake);
 	void printDead(IntPair snake_pos);
 };
