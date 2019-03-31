@@ -4,7 +4,9 @@
 #include <curses.h>
 #include "IntPair.hpp"
 #include "Snake.hpp"
+#include "ColorPair.hpp"
 
+// macros for used characters
 #define SNAKE_HEAD '@'
 #define SNAKE_DEAD 'X'
 #define SNAKE_BODY 'O'
@@ -12,6 +14,12 @@
 
 class Display {
 	WINDOW* win;
+	int COLOR_BACK; // background color, -1 if default colors possible, otherwise COLOR_BLACK
+	
+	//to be initialized int colorInit()
+	ColorPair* color_snake;
+	ColorPair* color_dead;
+	ColorPair* color_border;
 
 	IntPair findCenteredPos(IntPair win_size, IntPair term_size);
 
@@ -21,8 +29,9 @@ public:
 	WINDOW* getWindow();
 
 	void cursesInit();
+	void colorInit();
 	void windowInit(IntPair win_size);
-	void printChar(IntPair pos, char ch);
+	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
 	void printWin(Snake snake);
 	void printDead(IntPair snake_pos);
 };
