@@ -2,7 +2,7 @@
 
 Snake::Snake(IntPair start_pos, Direction start_direction) {
 	body.push_back(BodyPiece(start_pos, start_direction));
-	fed = true;
+	how_fed = 3;
 }
 
 int Snake::getBodySize() {
@@ -13,21 +13,21 @@ IntPair Snake::getBodyPiecePos(int index) {
 	return body[index].getPos();	
 }
 
-bool Snake::isFed() {
-	return fed;
+int Snake::howFed() {
+	return how_fed;
 }
 
-void Snake::feed() {
-	fed = true;
+void Snake::feed(int amount) {
+	how_fed += amount;
 }
 
 void Snake::advancePos() {
 	for(int i=body.size()-1; i>=0; --i) {
-		if(i==body.size()-1 && fed) {
+		if(i==body.size()-1 && how_fed>0) {
 			IntPair old_pos         = body[i].getPos();
 			Direction old_direction = body[i].getDirection();
 			body.push_back(BodyPiece(old_pos, old_direction));
-			fed = false;
+			how_fed -= 1;
 		}
 
 		if(i==0)
