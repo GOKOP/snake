@@ -13,6 +13,10 @@ IntPair Snake::getBodyPiecePos(int index) {
 	return body[index].getPos();	
 }
 
+IntPair Snake::getHeadPos() {
+	return body[0].getPos();
+}
+
 int Snake::howFed() {
 	return how_fed;
 }

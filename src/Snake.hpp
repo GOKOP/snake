@@ -13,6 +13,7 @@ public:
 
 	int getBodySize();
 	IntPair getBodyPiecePos(int index);
+	IntPair getHeadPos();
 	int howFed();
 
 	void feed(int amount);
