@@ -1,2 +1,2 @@
 # Snake
-Snake in ncurses. Not quite working yet
+Snake in ncurses. Sorta playable but hangs when you lose

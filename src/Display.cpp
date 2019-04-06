@@ -29,6 +29,7 @@ void Display::colorInit() {
 		color_snake  = new ColorPair(1, COLOR_GREEN, COLOR_BACK, true);
 		color_dead   = new ColorPair(2, COLOR_RED, COLOR_BACK, true);
 		color_border = new ColorPair(3, COLOR_WHITE, COLOR_WHITE);
+		color_fruit  = new ColorPair(4, COLOR_RED, COLOR_BACK);
 	}
 }
 
@@ -64,12 +65,16 @@ void Display::printChar(IntPair pos, char ch, ColorPair* color) {
 	if(color!=NULL) color->disable(win);
 }
 
-void Display::printWin(Snake snake) {
+void Display::printWin(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
 	color_border->enable(win);
 	wborder(win, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER);
 	color_border->disable(win);
+
+	for(int i=0; i<fruits.size(); ++i) {
+		printChar(fruits[i].pos, FRUIT, color_fruit);
+	}
 	
 	for(int i=0; i<snake.getBodySize(); ++i) {
 		if(i==0)

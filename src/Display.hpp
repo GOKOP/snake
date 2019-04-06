@@ -4,6 +4,7 @@
 #include <curses.h>
 #include "IntPair.hpp"
 #include "Snake.hpp"
+#include "Fruit.hpp"
 #include "ColorPair.hpp"
 
 // macros for used characters
@@ -11,6 +12,7 @@
 #define SNAKE_DEAD 'X'
 #define SNAKE_BODY 'O'
 #define BORDER '#'
+#define FRUIT '*'
 
 class Display {
 	WINDOW* win;
@@ -20,6 +22,7 @@ class Display {
 	ColorPair* color_snake;
 	ColorPair* color_dead;
 	ColorPair* color_border;
+	ColorPair* color_fruit;
 
 	IntPair findCenteredPos(IntPair win_size, IntPair term_size);
 
@@ -32,7 +35,7 @@ public:
 	void colorInit();
 	void windowInit(IntPair win_size);
 	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
-	void printWin(Snake snake);
+	void printWin(Snake snake, std::vector<Fruit> fruits);
 	void printDead(IntPair snake_pos);
 };
 
