@@ -17,6 +17,10 @@ IntPair Snake::getHeadPos() {
 	return body[0].getPos();
 }
 
+Direction Snake::getDirection() {
+	return body[0].getDirection();
+}
+
 int Snake::howFed() {
 	return how_fed;
 }

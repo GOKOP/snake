@@ -14,6 +14,7 @@ public:
 	int getBodySize();
 	IntPair getBodyPiecePos(int index);
 	IntPair getHeadPos();
+	Direction getDirection();
 	int howFed();
 
 	void feed(int amount);
