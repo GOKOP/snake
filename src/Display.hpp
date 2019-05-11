@@ -35,7 +35,7 @@ public:
 	void colorInit();
 	void windowInit(IntPair win_size);
 	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
-	void printWin(Snake snake, std::vector<Fruit> fruits);
+	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printDead(IntPair snake_pos);
 };
 

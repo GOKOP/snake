@@ -33,7 +33,7 @@ int main() {
 		if(state != LOST)
 			state = advanceGame(snake, win_size, fruit_manager);
 		
-		display.printWin(snake, fruit_manager.getFruits());
+		display.printGame(snake, fruit_manager.getFruits());
 		
 		if(state == LOST)
 			display.printDead(snake.getHeadPos());

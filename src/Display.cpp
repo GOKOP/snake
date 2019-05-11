@@ -65,7 +65,7 @@ void Display::printChar(IntPair pos, char ch, ColorPair* color) {
 	if(color!=NULL) color->disable(win);
 }
 
-void Display::printWin(Snake snake, std::vector<Fruit> fruits) {
+void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
 	color_border->enable(win);
