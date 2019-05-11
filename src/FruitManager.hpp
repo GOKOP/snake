@@ -12,6 +12,7 @@ class FruitManager {
 
 public:
 	std::vector<Fruit> getFruits();
+	Fruit getFruit(int index);
 
 	void add(IntPair win_size);
 	void remove(int index);

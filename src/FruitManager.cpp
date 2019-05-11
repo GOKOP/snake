@@ -16,3 +16,7 @@ void FruitManager::remove(int index) {
 std::vector<Fruit> FruitManager::getFruits() {
 	return fruits;
 }
+
+Fruit FruitManager::getFruit(int index) {
+	return fruits[index];
+}
