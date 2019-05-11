@@ -1,7 +1,6 @@
 #include <curses.h>
 #include <unistd.h>
 #include <cstdlib>
-#include <random>
 
 #include "IntPair.hpp"
 #include "Snake.hpp"
@@ -16,12 +15,11 @@ enum GameState {
 };
 
 void millisleep(int millisec);
-GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager, std::mt19937& mt);
+GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
 void processInput(WINDOW* win, Snake &snake);
 
 int main() {
-	std::random_device rd;
-	std::mt19937 mt(rd());
+	srand(time(NULL));
 	
 	IntPair win_size(40,20);
 	Display display(win_size);
@@ -33,7 +31,7 @@ int main() {
 		processInput(display.getWindow(), snake);
 
 		if(state != LOST)
-			state = advanceGame(snake, win_size, fruit_manager, mt);
+			state = advanceGame(snake, win_size, fruit_manager);
 		
 		display.printWin(snake, fruit_manager.getFruits());
 		
@@ -51,8 +49,8 @@ void millisleep(int millisec) {
 	usleep(millisec*10000);
 }
 
-GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager, std::mt19937& mt) {
-	if(fruit_manager.getFruits().size()<MIN_FRUITS) fruit_manager.add(win_size, mt);
+GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager) {
+	if(fruit_manager.getFruits().size()<MIN_FRUITS) fruit_manager.add(win_size);
 
 	snake.advancePos();	
 

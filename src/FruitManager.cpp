@@ -2,11 +2,11 @@
 #include <random>
 #include <algorithm>
 
-void FruitManager::add(IntPair win_size, std::mt19937& gen) {
-	std::uniform_int_distribution<int> rand_x(1, win_size.x-2);
-	std::uniform_int_distribution<int> rand_y(1, win_size.y-2);
+void FruitManager::add(IntPair win_size) {
+	int rand_x = rand()%win_size.x;
+	int rand_y = rand()%win_size.y;
 
-	fruits.push_back(Fruit(rand_x(gen), rand_y(gen), 1));
+	fruits.push_back(Fruit(rand_x, rand_y, 1));
 }
 
 void FruitManager::remove(int index) {
