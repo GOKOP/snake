@@ -10,7 +10,7 @@
 // macros for used characters
 #define SNAKE_HEAD '@'
 #define SNAKE_DEAD 'X'
-#define SNAKE_BODY 'O'
+#define SNAKE_BODY 'o'
 #define BORDER '#'
 #define FRUIT '*'
 
