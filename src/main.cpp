@@ -30,10 +30,10 @@ int main() {
 	while(true) {
 		processInput(display.getWindow(), snake);
 
-		if(state != LOST)
+		if(state == RUNNING) {
 			state = advanceGame(snake, win_size, fruit_manager);
-		
-		display.printGame(snake, fruit_manager.getFruits());
+			display.printGame(snake, fruit_manager.getFruits());
+		}
 		
 		if(state == LOST)
 			display.printDead(snake.getHeadPos());
@@ -57,11 +57,12 @@ GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manage
 		do {
 			conflicts = false;
 			for(int i=0; i<snake.getBodySize(); ++i) {
-				if(fruit_manager.getFruit(fruit_manager.getFruitCount()-1).pos == snake.getBodyPiecePos(i)) {
-					fruit_manager.remove(fruit_manager.getFruitCount()-1);
-					fruit_manager.add(win_size);
+				if(fruit_manager.getFruit(fruit_manager.getFruitCount()-1).pos == snake.getBodyPiecePos(i))
 					conflicts = true;
-				}
+			}
+			if(conflicts) {
+				fruit_manager.remove(fruit_manager.getFruitCount()-1);
+				fruit_manager.add(win_size);
 			}
 		} while(conflicts);
 	}
