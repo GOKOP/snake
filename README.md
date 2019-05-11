@@ -1,4 +1,7 @@
 # Snake
-Snake in ncurses. Sorta playable but hangs when you lose
+Snake in ncurses. 
+Playable.
 
-Note it's not finished yet
+Requires ncurses. 
+Building on Windows may be a problem, on \*nixes should be fine though.
+Only tested on Linux.
