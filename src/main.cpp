@@ -50,7 +50,21 @@ void millisleep(int millisec) {
 }
 
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager) {
-	if(fruit_manager.getFruits().size()<MIN_FRUITS) fruit_manager.add(win_size);
+	if(fruit_manager.getFruits().size()<MIN_FRUITS) {
+		fruit_manager.add(win_size);
+		
+		bool conflicts = false;
+		do {
+			conflicts = false;
+			for(int i=0; i<snake.getBodySize(); ++i) {
+				if(fruit_manager.getFruit(fruit_manager.getFruitCount()-1).pos == snake.getBodyPiecePos(i)) {
+					fruit_manager.remove(fruit_manager.getFruitCount()-1);
+					fruit_manager.add(win_size);
+					conflicts = true;
+				}
+			}
+		} while(conflicts);
+	}
 
 	snake.advancePos();	
 
