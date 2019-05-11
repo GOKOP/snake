@@ -3,8 +3,8 @@
 #include <algorithm>
 
 void FruitManager::add(IntPair win_size) {
-	int rand_x = rand()%win_size.x;
-	int rand_y = rand()%win_size.y;
+	int rand_x = rand()%(win_size.x-2)+1;
+	int rand_y = rand()%(win_size.y-2)+1;
 
 	fruits.push_back(Fruit(rand_x, rand_y, 1));
 }
