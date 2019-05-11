@@ -13,6 +13,7 @@
 # define MIN_FRUITS 1
 
 void millisleep(int millisec);
+void gameReset(Snake& snake, FruitManager& fruit_manager);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
 void processGameInput(WINDOW* win, Snake& snake);
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
@@ -48,6 +49,7 @@ int main() {
 		if(state == LOST) {
 			display.printDead(snake.getHeadPos());
 			millisleep(200);
+			gameReset(snake, fruit_manager);
 			state = MAIN_MENU;
 		}
 	}
@@ -58,6 +60,11 @@ int main() {
 
 void millisleep(int millisec) {
 	usleep(millisec*10000);
+}
+
+void gameReset(Snake& snake, FruitManager& fruit_manager) {
+	snake 		   = Snake(IntPair(20,10), RIGHT);
+	fruit_manager = FruitManager();
 }
 
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager) {
