@@ -6,6 +6,18 @@ void FruitManager::add(IntPair win_size) {
 	int rand_x = rand()%(win_size.x-2)+1;
 	int rand_y = rand()%(win_size.y-2)+1;
 
+	bool conflicts = false;
+	do {
+		conflicts = false;
+		for(int i=0; i<getFruitCount(); ++i) {
+			if(fruits[i].pos == IntPair(rand_x, rand_y)) conflicts = true;
+		}
+		if(conflicts) {
+			rand_x = rand()%(win_size.x-2)+1;
+			rand_y = rand()%(win_size.y-2)+1;
+		}
+	} while(conflicts);
+
 	fruits.push_back(Fruit(rand_x, rand_y, 1));
 }
 
