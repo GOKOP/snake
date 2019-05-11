@@ -1,44 +1,55 @@
 #include <curses.h>
 #include <unistd.h>
 #include <cstdlib>
+#include <ctype.h>
 
 #include "IntPair.hpp"
 #include "Snake.hpp"
 #include "Display.hpp"
 #include "FruitManager.hpp"
+#include "Enums.hpp"
+#include "Menu.hpp"
 
 # define MIN_FRUITS 1
 
-enum GameState {
-	RUNNING,
-	LOST
-};
-
 void millisleep(int millisec);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
-void processInput(WINDOW* win, Snake &snake);
+void processGameInput(WINDOW* win, Snake& snake);
+void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
+Menu initMainMenu();
 
 int main() {
 	srand(time(NULL));
 	
 	IntPair win_size(40,20);
 	Display display(win_size);
+
+	Menu main_menu = initMainMenu();
 	Snake snake(IntPair(20,10), RIGHT);
 	FruitManager fruit_manager;
-	GameState state = RUNNING;
+	GameState state = MAIN_MENU;
 	
 	while(true) {
-		processInput(display.getWindow(), snake);
-
-		if(state == RUNNING) {
+		if(state == MAIN_MENU) {
+			processMenuInput(display.getWindow(), main_menu, state);
+			display.printMenu(main_menu);
+		}
+		else if(state == RUNNING) {
+			processGameInput(display.getWindow(), snake);
 			state = advanceGame(snake, win_size, fruit_manager);
 			display.printGame(snake, fruit_manager.getFruits());
+			millisleep(10);
+		}
+		else if(state == QUIT) {
+			endwin();
+			return 0;
 		}
 		
-		if(state == LOST)
+		if(state == LOST) {
 			display.printDead(snake.getHeadPos());
-
-		millisleep(10);
+			millisleep(200);
+			state = MAIN_MENU;
+		}
 	}
 
 	endwin();
@@ -89,7 +100,7 @@ GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manage
 	return RUNNING;
 }
 
-void processInput(WINDOW* win, Snake &snake) {
+void processGameInput(WINDOW* win, Snake& snake) {
 	switch(wgetch(win)) {
 		case KEY_UP:
 			if(snake.getDirection() != DOWN) snake.turn(UP); break;
@@ -102,4 +113,23 @@ void processInput(WINDOW* win, Snake &snake) {
 		default:
 			break;
 	}
+}
+
+void processMenuInput(WINDOW* win, Menu& menu, GameState& state) {
+	switch(wgetch(win)) {
+		case KEY_UP:
+			menu.moveSelection(UP); break;
+		case KEY_DOWN:
+			menu.moveSelection(DOWN); break;
+		case '\n':
+			state = menu.getOption(menu.getSelection()).target_state;
+	}
+}
+
+Menu initMainMenu() {
+	Menu menu("[cool name here]");
+	menu.addOption(MenuOption("Start Game", RUNNING));
+	menu.addOption(MenuOption("Quit", QUIT));
+
+	return menu;
 }

@@ -2,13 +2,7 @@
 #define BODYPIECE_HPP
 
 #include "IntPair.hpp"
-
-enum Direction {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
-};
+#include "Enums.hpp"
 
 class BodyPiece {
 	IntPair pos;

@@ -1,8 +1,9 @@
 #include "Display.hpp"
 
-Display::Display(IntPair win_size) {
+Display::Display(IntPair new_win_size) {
 	cursesInit();
 	colorInit();
+	win_size = new_win_size;
 	windowInit(win_size);
 }
 
@@ -30,6 +31,10 @@ void Display::colorInit() {
 		color_dead   = new ColorPair(2, COLOR_RED, COLOR_BACK, true);
 		color_border = new ColorPair(3, COLOR_WHITE, COLOR_WHITE);
 		color_fruit  = new ColorPair(4, COLOR_RED, COLOR_BACK);
+		
+		color_menu_header   = new ColorPair(5, COLOR_CYAN, COLOR_BACK, true);
+		color_menu_option   = new ColorPair(6, COLOR_WHITE, COLOR_BACK, true);
+		color_menu_selected = new ColorPair(7, COLOR_WHITE, COLOR_GREEN, true);
 	}
 }
 
@@ -88,4 +93,36 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 void Display::printDead(IntPair snake_pos) {
 	printChar(snake_pos, SNAKE_DEAD, color_dead);
 	wrefresh(win);
+}
+
+void Display::printMenu(Menu menu) {
+	werase(win);
+	
+	int menu_height = menu.getOptionCount()+2; // options + header and an empty line
+	if(menu_height > win_size.y) {
+		waddstr(win, "win too small");
+		return;
+	}
+	
+	int menu_offset   = (win_size.y - menu_height)/2;		 	   // for vertical centering
+	int header_offset = (win_size.x - menu.getHeader().size())/2; // for horizontal centering
+
+	wmove(win, menu_offset, header_offset);
+
+	color_menu_header->enable(win);
+	waddstr(win, menu.getHeader().c_str());
+	color_menu_header->disable(win);
+
+	for(int i=0; i<menu.getOptionCount(); ++i) {
+		int option_offset = (win_size.x - menu.getOption(i).name.size())/2;
+		wmove(win, menu_offset+2+i, option_offset);
+
+		ColorPair* color;
+		if(menu.getSelection() == i) color = color_menu_selected;
+		else					 	 color = color_menu_option;
+
+		color->enable(win);
+		waddstr(win, menu.getOption(i).name.c_str());
+		color->disable(win);
+	}
 }
