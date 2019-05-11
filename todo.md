@@ -2,5 +2,5 @@
 - [x] Move render outside of main.cpp
 - [x] Add colors
 - [x] Make fruits
-- [ ] Make some interface
+- [x] Make some interface
 - [ ] Accept window size and snake speed as arguments
