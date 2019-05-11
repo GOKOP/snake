@@ -101,14 +101,22 @@ GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manage
 }
 
 void processGameInput(WINDOW* win, Snake& snake) {
-	switch(wgetch(win)) {
+	switch(tolower(wgetch(win))) {
 		case KEY_UP:
+		case 'w':
+		case 'k':
 			if(snake.getDirection() != DOWN) snake.turn(UP); break;
 		case KEY_DOWN:
+		case 's':
+		case 'j':
 			if(snake.getDirection() != UP) snake.turn(DOWN); break;
 		case KEY_LEFT:
+		case 'a':
+		case 'h':
 			if(snake.getDirection() != RIGHT) snake.turn(LEFT); break;
 		case KEY_RIGHT:
+		case 'd':
+		case 'l':
 			if(snake.getDirection() != LEFT) snake.turn(RIGHT); break;
 		default:
 			break;
@@ -116,12 +124,19 @@ void processGameInput(WINDOW* win, Snake& snake) {
 }
 
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state) {
-	switch(wgetch(win)) {
+	switch(tolower(wgetch(win))) {
 		case KEY_UP:
+		case 'w':
+		case 'k':
 			menu.moveSelection(UP); break;
 		case KEY_DOWN:
+		case 's':
+		case 'j':
 			menu.moveSelection(DOWN); break;
 		case '\n':
+		case KEY_RIGHT:
+		case 'd':
+		case 'l':
 			state = menu.getOption(menu.getSelection()).target_state;
 	}
 }
