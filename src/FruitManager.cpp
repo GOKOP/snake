@@ -20,3 +20,7 @@ std::vector<Fruit> FruitManager::getFruits() {
 Fruit FruitManager::getFruit(int index) {
 	return fruits[index];
 }
+
+int FruitManager::getFruitCount() {
+	return fruits.size();
+}
