@@ -43,7 +43,7 @@ int main() {
 		}
 		else if(state == QUIT) {
 			endwin();
-			return 0;
+			exit(0);
 		}
 		
 		if(state == LOST) {
