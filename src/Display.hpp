@@ -2,6 +2,8 @@
 #define DISPLAY_HPP
 
 #include <curses.h>
+#include <string>
+
 #include "IntPair.hpp"
 #include "Snake.hpp"
 #include "Fruit.hpp"
@@ -25,6 +27,7 @@ class Display {
 	ColorPair* color_dead;
 	ColorPair* color_border;
 	ColorPair* color_fruit;
+	ColorPair* color_scores;
 	ColorPair* color_menu_header;
 	ColorPair* color_menu_option;
 	ColorPair* color_menu_selected;
@@ -40,6 +43,7 @@ public:
 	void colorInit();
 	void windowInit(IntPair win_size);
 	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
+	void printString(IntPair pos, std::string str, ColorPair* color=NULL);
 	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printMenu(Menu menu);
 	void printDead(IntPair snake_pos);

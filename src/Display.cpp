@@ -31,10 +31,11 @@ void Display::colorInit() {
 		color_dead   = new ColorPair(2, COLOR_RED, COLOR_BACK, true);
 		color_border = new ColorPair(3, COLOR_WHITE, COLOR_WHITE);
 		color_fruit  = new ColorPair(4, COLOR_RED, COLOR_BACK);
+		color_scores = new ColorPair(5, COLOR_BLACK, COLOR_WHITE);
 		
-		color_menu_header   = new ColorPair(5, COLOR_CYAN, COLOR_BACK, true);
-		color_menu_option   = new ColorPair(6, COLOR_WHITE, COLOR_BACK, true);
-		color_menu_selected = new ColorPair(7, COLOR_WHITE, COLOR_GREEN, true);
+		color_menu_header   = new ColorPair(6, COLOR_CYAN, COLOR_BACK, true);
+		color_menu_option   = new ColorPair(7, COLOR_WHITE, COLOR_BACK, true);
+		color_menu_selected = new ColorPair(8, COLOR_WHITE, COLOR_GREEN, true);
 	}
 }
 
@@ -70,6 +71,18 @@ void Display::printChar(IntPair pos, char ch, ColorPair* color) {
 	if(color!=NULL) color->disable(win);
 }
 
+void Display::printString(IntPair pos, std::string str, ColorPair* color) {
+	IntPair max_pos;
+	getmaxyx(win, max_pos.y, max_pos.x);
+
+	if(color!=NULL) color->enable(win);
+
+	if(pos.x>=0 && pos.x+str.size()<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
+		wmove(win, pos.y, pos.x);
+		waddstr(win, str.c_str());
+	}
+}
+
 void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
@@ -87,6 +100,9 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 		else 
 			printChar(snake.getBodyPiecePos(i), SNAKE_BODY, color_snake); 
 	} 
+
+	printString(IntPair(1, win_size.y-1), "Body: " + std::to_string( snake.getBodySize() ), color_scores);
+
 	wrefresh(win);
 }
 
