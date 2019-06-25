@@ -49,6 +49,7 @@ int main() {
 		if(state == LOST) {
 			display.printDead(snake.getHeadPos());
 			millisleep(200);
+			processGameInput(display.getWindow(), snake);
 			gameReset(snake, fruit_manager, win_size);
 			state = MAIN_MENU;
 		}
