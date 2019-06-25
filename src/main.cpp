@@ -15,7 +15,7 @@
 void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
-void processGameInput(WINDOW* win, Snake& snake);
+void processGameInput(WINDOW* win, Snake& snake, GameState& state);
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
 void clearInput(WINDOW* win);
 Menu initMainMenu();
@@ -44,11 +44,17 @@ int main() {
 			gameReset(snake, fruit_manager, win_size);
 			state = MAIN_MENU;
 		}
+		else if(state == CANCELED) {
+			gameReset(snake, fruit_manager, win_size);
+			state = MAIN_MENU;
+		}
 		else if(state == RUNNING) {
-			processGameInput(display.getWindow(), snake);
+			// weird order ensures that state changed by processGameInput() 
+			// won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
-			display.printGame(snake, fruit_manager.getFruits());
 			millisleep(10);
+			processGameInput(display.getWindow(), snake, state);
+			display.printGame(snake, fruit_manager.getFruits());
 		}
 		else if(state == QUIT) {
 			endwin();
@@ -66,7 +72,7 @@ void millisleep(int millisec) {
 
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size) {
 	snake 		   = Snake(IntPair(win_size.x/2, win_size.y/2), RIGHT);
-	fruit_manager = FruitManager();
+	fruit_manager  = FruitManager();
 }
 
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager) {
@@ -109,7 +115,7 @@ GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manage
 	return RUNNING;
 }
 
-void processGameInput(WINDOW* win, Snake& snake) {
+void processGameInput(WINDOW* win, Snake& snake, GameState& state) {
 	switch(tolower(wgetch(win))) {
 		case KEY_UP:
 		case 'w':
@@ -127,6 +133,8 @@ void processGameInput(WINDOW* win, Snake& snake) {
 		case 'd':
 		case 'l':
 			if(snake.getDirection() != LEFT) snake.turn(RIGHT); break;
+		case 'q':
+			state = CANCELED;
 		default:
 			break;
 	}
@@ -146,7 +154,9 @@ void processMenuInput(WINDOW* win, Menu& menu, GameState& state) {
 		case KEY_RIGHT:
 		case 'd':
 		case 'l':
-			state = menu.getOption(menu.getSelection()).target_state;
+			state = menu.getOption(menu.getSelection()).target_state; break;
+		case 'q':
+			state = QUIT;
 	}
 }
 

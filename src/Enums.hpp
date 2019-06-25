@@ -6,7 +6,8 @@ enum GameState {
 	MAIN_MENU,
 	RUNNING,
 	LOST,
-	QUIT
+	QUIT,
+	CANCELED
 };
 
 enum Direction {
