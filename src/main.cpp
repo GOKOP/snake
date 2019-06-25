@@ -36,6 +36,13 @@ int main() {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
 		}
+		else if(state == LOST) {
+			display.printDead(snake.getHeadPos());
+			millisleep(200);
+			clearInput(display.getWindow());
+			gameReset(snake, fruit_manager, win_size);
+			state = MAIN_MENU;
+		}
 		else if(state == RUNNING) {
 			processGameInput(display.getWindow(), snake);
 			state = advanceGame(snake, win_size, fruit_manager);
@@ -45,14 +52,6 @@ int main() {
 		else if(state == QUIT) {
 			endwin();
 			exit(0);
-		}
-		
-		if(state == LOST) {
-			display.printDead(snake.getHeadPos());
-			millisleep(200);
-			clearInput(display.getWindow());
-			gameReset(snake, fruit_manager, win_size);
-			state = MAIN_MENU;
 		}
 	}
 
