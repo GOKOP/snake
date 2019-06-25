@@ -35,6 +35,7 @@ int main() {
 		if(state == MAIN_MENU) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
+			millisleep(1); //ensures that the loop won't pointlessly take the whole cpu
 		}
 		else if(state == LOST) {
 			display.printDead(snake.getHeadPos());
