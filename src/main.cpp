@@ -17,6 +17,7 @@ void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
 void processGameInput(WINDOW* win, Snake& snake);
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
+void clearInput(WINDOW* win);
 Menu initMainMenu();
 
 int main() {
@@ -49,7 +50,7 @@ int main() {
 		if(state == LOST) {
 			display.printDead(snake.getHeadPos());
 			millisleep(200);
-			processGameInput(display.getWindow(), snake);
+			clearInput(display.getWindow());
 			gameReset(snake, fruit_manager, win_size);
 			state = MAIN_MENU;
 		}
@@ -147,6 +148,10 @@ void processMenuInput(WINDOW* win, Menu& menu, GameState& state) {
 		case 'l':
 			state = menu.getOption(menu.getSelection()).target_state;
 	}
+}
+
+void clearInput(WINDOW* win) {
+	while(wgetch(win) != ERR) {};
 }
 
 Menu initMainMenu() {
