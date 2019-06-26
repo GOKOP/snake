@@ -35,7 +35,7 @@ int main() {
 		if(state == MAIN_MENU) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
-			millisleep(1); //ensures that the loop won't pointlessly take the whole cpu
+			millisleep(1); // ensures that the loop won't pointlessly take the whole cpu
 		}
 		else if(state == LOST) {
 			display.printDead(snake.getHeadPos());
@@ -49,8 +49,7 @@ int main() {
 			state = MAIN_MENU;
 		}
 		else if(state == RUNNING) {
-			// weird order ensures that state changed by processGameInput() 
-			// won't be overwritten by advanceGame()
+			// weird order ensures that state changed by processGameInput() won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
 			millisleep(10);
 			processGameInput(display.getWindow(), snake, state);
