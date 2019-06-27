@@ -80,8 +80,7 @@ void handleOptions(int argc, char* argv[], IntPair& win_size) {
 	while( (opt = getopt(argc, argv, "hw:")) != -1 ) {
 		switch(opt) {
 			case 'w':
-				if(optarg) win_size = setWinSize(optarg);
-				break;
+				if(optarg) win_size = setWinSize(optarg); break;
 			case 'h': 
 			default: printHelp(); break;
 		}
