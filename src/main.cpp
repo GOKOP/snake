@@ -12,7 +12,9 @@
 #include "Enums.hpp"
 #include "Menu.hpp"
 
-# define MIN_FRUITS 1
+#define MIN_FRUITS 1
+#define DEF_WIDTH 40
+#define DEF_HEIGHT 20
 
 void handleOptions(int argc, char* argv[], IntPair& win_size);
 void printHelp();
@@ -28,7 +30,7 @@ Menu initMainMenu();
 int main(int argc, char* argv[]) {
 	IntPair win_size;
 	handleOptions(argc, argv, win_size);
-	if(win_size == IntPair(0,0)) win_size = IntPair(40,20);
+	if(win_size == IntPair(0,0)) win_size = IntPair(DEF_WIDTH,DEF_HEIGHT);
 
 	srand(time(NULL));
 	
@@ -89,7 +91,7 @@ void printHelp() {
 	std::cout<<"Snake game written in ncurses, configurable through command line options."<<std::endl;
 	std::cout<<"Available options are:"<<std::endl;
 	std::cout<<"\t-h\tprint this message"<<std::endl;
-	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: 40x20)"<<std::endl;
+	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
 	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
 
 	exit(0);
