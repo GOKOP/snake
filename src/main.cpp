@@ -1,3 +1,4 @@
+#include <iostream>
 #include <curses.h>
 #include <unistd.h>
 #include <cstdlib>
@@ -12,6 +13,8 @@
 
 # define MIN_FRUITS 1
 
+void handleOptions(int argc, char* argv[]);
+void printHelp();
 void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
@@ -20,7 +23,9 @@ void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
 void clearInput(WINDOW* win);
 Menu initMainMenu();
 
-int main() {
+int main(int argc, char* argv[]) {
+	handleOptions(argc, argv);
+
 	srand(time(NULL));
 	
 	IntPair win_size(40,20);
@@ -63,6 +68,23 @@ int main() {
 
 	endwin();
 	return 0;
+}
+
+void handleOptions(int argc, char* argv[]) {
+	int opt;
+	while( (opt = getopt(argc, argv, "h")) != -1 ) {
+		switch(opt) {
+			case 'h': 
+			default: printHelp(); break;
+		}
+	}
+}
+void printHelp() {
+	std::cout<<"Snake game written in ncurses, configurable through command line options."<<std::endl;
+	std::cout<<"Avaliable options are:"<<std::endl;
+	std::cout<<"-h\tprint this message"<<std::endl;
+
+	exit(0);
 }
 
 void millisleep(int millisec) {
