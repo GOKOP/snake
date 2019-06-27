@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <cstdlib>
 #include <ctype.h>
+#include <string>
 
 #include "IntPair.hpp"
 #include "Snake.hpp"
@@ -13,8 +14,9 @@
 
 # define MIN_FRUITS 1
 
-void handleOptions(int argc, char* argv[]);
+void handleOptions(int argc, char* argv[], IntPair& win_size);
 void printHelp();
+IntPair setWinSize(char* size_string);
 void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
@@ -24,11 +26,12 @@ void clearInput(WINDOW* win);
 Menu initMainMenu();
 
 int main(int argc, char* argv[]) {
-	handleOptions(argc, argv);
+	IntPair win_size;
+	handleOptions(argc, argv, win_size);
+	if(win_size == IntPair(0,0)) win_size = IntPair(40,20);
 
 	srand(time(NULL));
 	
-	IntPair win_size(40,20);
 	Display display(win_size);
 
 	Menu main_menu = initMainMenu();
@@ -70,10 +73,13 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-void handleOptions(int argc, char* argv[]) {
+void handleOptions(int argc, char* argv[], IntPair& win_size) {
 	int opt;
-	while( (opt = getopt(argc, argv, "h")) != -1 ) {
+	while( (opt = getopt(argc, argv, "hw:")) != -1 ) {
 		switch(opt) {
+			case 'w':
+				if(optarg) win_size = setWinSize(optarg);
+				break;
 			case 'h': 
 			default: printHelp(); break;
 		}
@@ -81,10 +87,36 @@ void handleOptions(int argc, char* argv[]) {
 }
 void printHelp() {
 	std::cout<<"Snake game written in ncurses, configurable through command line options."<<std::endl;
-	std::cout<<"Avaliable options are:"<<std::endl;
-	std::cout<<"-h\tprint this message"<<std::endl;
+	std::cout<<"Available options are:"<<std::endl;
+	std::cout<<"\t-h\tprint this message"<<std::endl;
+	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: 40x20)"<<std::endl;
+	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
 
 	exit(0);
+}
+
+IntPair setWinSize(char* size_string) {
+	std::string width_str = "";
+	std::string height_str = "";
+	bool read_width = true;
+
+	int i = 0;
+	while(size_string[i] != '\0') {
+		if(size_string[i] == 'x') read_width = false;
+		else if(read_width) width_str += size_string[i];
+		else height_str += size_string[i];
+		++i;
+	}
+
+	int width  = 0;
+	int height = 0;
+
+	try {
+		width  = std::stoi(width_str);
+		height = std::stoi(height_str);
+	} catch(...){}; // no catching needed here
+
+	return IntPair(width, height);
 }
 
 void millisleep(int millisec) {
