@@ -16,9 +16,16 @@
 #define DEF_WIDTH 40
 #define DEF_HEIGHT 20
 
-void handleOptions(int argc, char* argv[], IntPair& win_size);
+// delay in milliseconds
+#define SPEED1 15
+#define SPEED2 10
+#define SPEED3 5
+#define SPEED4 3
+
+void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay);
 void printHelp();
-IntPair setWinSize(char* size_string);
+IntPair setWinSize(char* size_str);
+int setSnakeDelay(char* delay_str);
 void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
@@ -29,7 +36,11 @@ Menu initMainMenu();
 
 int main(int argc, char* argv[]) {
 	IntPair win_size;
-	handleOptions(argc, argv, win_size);
+	int snake_delay = 0;
+
+	handleOptions(argc, argv, win_size, snake_delay);
+
+	if(snake_delay == 0) snake_delay = 10;
 	if(win_size == IntPair(0,0)) win_size = IntPair(DEF_WIDTH,DEF_HEIGHT);
 
 	srand(time(NULL));
@@ -61,7 +72,7 @@ int main(int argc, char* argv[]) {
 		else if(state == RUNNING) {
 			// weird order ensures that state changed by processGameInput() won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
-			millisleep(10);
+			millisleep(snake_delay);
 			processGameInput(display.getWindow(), snake, state);
 			display.printGame(snake, fruit_manager.getFruits());
 		}
@@ -75,12 +86,14 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-void handleOptions(int argc, char* argv[], IntPair& win_size) {
+void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay) {
 	int opt;
-	while( (opt = getopt(argc, argv, "hw:")) != -1 ) {
+	while( (opt = getopt(argc, argv, "hw:s:")) != -1 ) {
 		switch(opt) {
 			case 'w':
 				if(optarg) win_size = setWinSize(optarg); break;
+			case 's':
+				if(optarg) snake_delay = setSnakeDelay(optarg); break;
 			case 'h': 
 			default: printHelp(); break;
 		}
@@ -91,21 +104,23 @@ void printHelp() {
 	std::cout<<"Available options are:"<<std::endl;
 	std::cout<<"\t-h\tprint this message"<<std::endl;
 	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
+	std::cout<<"\t-s S\tchange snake's speed. S can be a number from 1 to 4 or a number of"<<std::endl;
+	std::cout<<"\t\tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
 	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
 
 	exit(0);
 }
 
-IntPair setWinSize(char* size_string) {
+IntPair setWinSize(char* size_str) {
 	std::string width_str = "";
 	std::string height_str = "";
 	bool read_width = true;
 
 	int i = 0;
-	while(size_string[i] != '\0') {
-		if(size_string[i] == 'x') read_width = false;
-		else if(read_width) width_str += size_string[i];
-		else height_str += size_string[i];
+	while(size_str[i] != '\0') {
+		if(size_str[i] == 'x') read_width = false;
+		else if(read_width) width_str += size_str[i];
+		else height_str += size_str[i];
 		++i;
 	}
 
@@ -122,6 +137,27 @@ IntPair setWinSize(char* size_string) {
 
 void millisleep(int millisec) {
 	usleep(millisec*10000);
+}
+
+int setSnakeDelay(char* delay_str) {
+	int delay = 0;
+
+	std::string delay_string(delay_str);
+	size_t size = delay_string.size();
+	// if given miliseconds, set the delay directly
+	if(delay_string[size-2]=='m' && delay_string[size-1]=='s') {
+		delay_string.erase(size-2);
+
+		try {
+			delay = std::stoi(delay_string);
+		} catch(...){};
+	} // else set based on predefined speed
+	else if(delay_string == "1") delay = SPEED1;
+	else if(delay_string == "2") delay = SPEED2;
+	else if(delay_string == "3") delay = SPEED3;
+	else if(delay_string == "4") delay = SPEED4;
+
+	return delay;
 }
 
 void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size) {
