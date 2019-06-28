@@ -102,10 +102,10 @@ void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay) 
 void printHelp() {
 	std::cout<<"Snake game written in ncurses, configurable through command line options."<<std::endl;
 	std::cout<<"Available options are:"<<std::endl;
-	std::cout<<"\t-h\tprint this message"<<std::endl;
-	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
-	std::cout<<"\t-s S\tchange snake's speed. S can be a number from 1 to 4 or a number of"<<std::endl;
-	std::cout<<"\t\tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
+	std::cout<<" -h\tprint this message"<<std::endl;
+	std::cout<<" -w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
+	std::cout<<" -s S\tchange snake's speed. S can be a number from 1 to 4 or a number of"<<std::endl;
+	std::cout<<" \tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
 	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl<<std::endl;
 
 	std::cout<<"In game controls:"<<std::endl;
