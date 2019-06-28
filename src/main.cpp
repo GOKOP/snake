@@ -106,8 +106,15 @@ void printHelp() {
 	std::cout<<"\t-w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
 	std::cout<<"\t-s S\tchange snake's speed. S can be a number from 1 to 4 or a number of"<<std::endl;
 	std::cout<<"\t\tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
-	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
+	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl<<std::endl;
 
+	std::cout<<"In game controls:"<<std::endl;
+	std::cout<<" arrows, wasd, hjkl"<<std::endl;
+	std::cout<<"\tmovement (both in game and menu)"<<std::endl;
+	std::cout<<" enter, right arrow, d, l"<<std::endl;
+	std::cout<<"\tselect option (in menu)"<<std::endl;
+	std::cout<<" q"<<std::endl;
+	std::cout<<"\tquit to menu (in game), exit game (in menu)"<<std::endl;
 	exit(0);
 }
 
