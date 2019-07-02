@@ -4,7 +4,7 @@ Display::Display(IntPair new_win_size) {
 	cursesInit();
 	colorInit();
 	win_size = new_win_size;
-	windowInit(win_size);
+	windowInit();
 }
 
 WINDOW* Display::getWindow() {
@@ -39,8 +39,7 @@ void Display::colorInit() {
 	}
 }
 
-void Display::windowInit(IntPair win_size) {
-	IntPair term_size; 
+void Display::windowInit() {
 	getmaxyx(stdscr, term_size.y, term_size.x);
 
 	IntPair win_pos = findCenteredPos(win_size, term_size);
@@ -140,5 +139,15 @@ void Display::printMenu(Menu menu) {
 		color->enable(win);
 		waddstr(win, menu.getOption(i).name.c_str());
 		color->disable(win);
+	}
+}
+
+void Display::checkTermSize() {
+	IntPair new_term;
+	getmaxyx(stdscr, new_term.y, new_term.x);
+	if(new_term != term_size) {
+		erase();
+		refresh();
+		windowInit();
 	}
 }

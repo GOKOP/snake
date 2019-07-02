@@ -53,6 +53,8 @@ int main(int argc, char* argv[]) {
 	GameState state = MAIN_MENU;
 	
 	while(true) {
+		display.checkTermSize();
+
 		if(state == MAIN_MENU) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);

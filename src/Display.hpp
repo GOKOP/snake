@@ -21,6 +21,7 @@ class Display {
 	WINDOW* win;
 	int COLOR_BACK; // background color
 	IntPair win_size;
+	IntPair term_size; // kept to check if it changed
 	
 	//to be initialized int colorInit()
 	ColorPair* color_snake;
@@ -41,12 +42,13 @@ public:
 
 	void cursesInit();
 	void colorInit();
-	void windowInit(IntPair win_size);
+	void windowInit();
 	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
 	void printString(IntPair pos, std::string str, ColorPair* color=NULL);
 	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printMenu(Menu menu);
 	void printDead(IntPair snake_pos);
+	void checkTermSize();
 };
 
 #endif
