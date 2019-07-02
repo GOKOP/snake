@@ -9,6 +9,7 @@ public:
 	IntPair();
 	IntPair(int new_x, int new_y);
 	bool operator==(IntPair other);
+	bool operator!=(IntPair other);
 };
 
 #endif

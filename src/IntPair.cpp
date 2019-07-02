@@ -13,3 +13,7 @@ IntPair::IntPair(int new_x, int new_y) {
 bool IntPair::operator==(IntPair other) {
 	return (x==other.x && y==other.y);
 }
+
+bool IntPair::operator!=(IntPair other) {
+	return (x!=other.x || y!=other.y);
+}
