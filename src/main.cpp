@@ -12,6 +12,8 @@
 #include "Enums.hpp"
 #include "Menu.hpp"
 
+#define VERSION "v1.0"
+
 #define MIN_FRUITS 1
 #define DEF_WIDTH 40
 #define DEF_HEIGHT 20
@@ -264,7 +266,7 @@ void clearInput(WINDOW* win) {
 }
 
 Menu initMainMenu() {
-	Menu menu("[cool name here]");
+	Menu menu("[cool name here]", VERSION);
 	menu.addOption(MenuOption("Start Game", RUNNING));
 	menu.addOption(MenuOption("Quit", QUIT));
 
