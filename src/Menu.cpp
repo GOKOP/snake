@@ -1,12 +1,17 @@
 #include "Menu.hpp"
 
-Menu::Menu(std::string new_header) {
+Menu::Menu(std::string new_header, std::string new_corner) {
 	header = new_header;
+	corner_text = new_corner;
 	selected_index = 0;
 }
 
 std::string Menu::getHeader() {
 	return header;
+}
+
+std::string Menu::getCornerText() {
+	return corner_text;
 }
 
 int Menu::getOptionCount() {

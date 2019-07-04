@@ -140,6 +140,10 @@ void Display::printMenu(Menu menu) {
 		waddstr(win, menu.getOption(i).name.c_str());
 		color->disable(win);
 	}
+
+	int corner_offset = (win_size.x - menu.getCornerText().size()); // for right align
+	wmove(win, win_size.y-1, corner_offset);
+	waddstr(win, menu.getCornerText().c_str());
 }
 
 void Display::checkTermSize() {
