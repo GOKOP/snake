@@ -1,2 +1,7 @@
+COMPILER=g++
+
 compile: 
-	g++ src/*.cpp -Isrc -lncurses -std=c++0x -o snake;
+	$(COMPILER) src/*.cpp -Isrc -lncurses -std=c++0x -o snake;
+
+install:
+	cp ./snake /usr/local/bin/coolsnake;
