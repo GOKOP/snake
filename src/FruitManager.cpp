@@ -2,6 +2,10 @@
 #include <random>
 #include <algorithm>
 
+FruitManager::FruitManager(int new_min) {
+	min_fruits = new_min;
+}
+
 void FruitManager::add(IntPair win_size) {
 	int rand_x = rand()%(win_size.x-2)+1;
 	int rand_y = rand()%(win_size.y-2)+1;
@@ -35,4 +39,12 @@ Fruit FruitManager::getFruit(int index) {
 
 int FruitManager::getFruitCount() {
 	return fruits.size();
+}
+
+void FruitManager::setMinFruits(int new_min) {
+	min_fruits = new_min;
+}
+
+int FruitManager::getMinFruits() {
+	return min_fruits;
 }
