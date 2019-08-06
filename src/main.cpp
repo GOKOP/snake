@@ -15,8 +15,9 @@
 #define VERSION "v1.1dev"
 
 #define DEF_MIN_FRUITS 1
-#define DEF_WIDTH 40
+#define DEF_WIDTH  40
 #define DEF_HEIGHT 20
+#define DEF_LENGTH 3
 
 // delay in milliseconds
 #define SPEED1 15
@@ -24,13 +25,14 @@
 #define SPEED3 5
 #define SPEED4 3
 
-void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits);
+void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits, int& beg_length);
 void printHelp();
 IntPair setWinSize(char* size_str);
 int setSnakeDelay(char* delay_str);
 int setMinFruits(char* num_str);
+int setBegLength(char* len_str);
 void millisleep(int millisec);
-void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size);
+void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size, int beg_len);
 GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
 void processGameInput(WINDOW* win, Snake& snake, GameState& state);
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
@@ -41,19 +43,21 @@ int main(int argc, char* argv[]) {
 	IntPair win_size;
 	int snake_delay = 0;
 	int min_fruits  = 0;
+	int beg_length  = 0;
 
-	handleOptions(argc, argv, win_size, snake_delay, min_fruits);
+	handleOptions(argc, argv, win_size, snake_delay, min_fruits, beg_length);
 
 	if(snake_delay == 0) snake_delay = 10;
 	if(win_size    == IntPair(0,0)) win_size = IntPair(DEF_WIDTH,DEF_HEIGHT);
 	if(min_fruits  == 0) min_fruits = DEF_MIN_FRUITS;
+	if(beg_length  == 0) beg_length = DEF_LENGTH;
 
 	srand(time(NULL));
 	
 	Display display(win_size);
 
 	Menu main_menu = initMainMenu();
-	Snake snake(IntPair(win_size.x/2, win_size.y/2), RIGHT);
+	Snake snake(IntPair(win_size.x/2, win_size.y/2), RIGHT, beg_length);
 	FruitManager fruit_manager(min_fruits);
 	GameState state = MAIN_MENU;
 	
@@ -69,11 +73,11 @@ int main(int argc, char* argv[]) {
 			display.printDead(snake.getHeadPos());
 			millisleep(200);
 			clearInput(display.getWindow());
-			gameReset(snake, fruit_manager, win_size);
+			gameReset(snake, fruit_manager, win_size, beg_length);
 			state = MAIN_MENU;
 		}
 		else if(state == CANCELED) {
-			gameReset(snake, fruit_manager, win_size);
+			gameReset(snake, fruit_manager, win_size, beg_length);
 			state = MAIN_MENU;
 		}
 		else if(state == RUNNING) {
@@ -93,9 +97,9 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits) {
+void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits, int& beg_length) {
 	int opt;
-	while( (opt = getopt(argc, argv, "hw:s:f:")) != -1 ) {
+	while( (opt = getopt(argc, argv, "hw:s:f:l:")) != -1 ) {
 		switch(opt) {
 			case 'w':
 				if(optarg) win_size = setWinSize(optarg); break;
@@ -103,6 +107,8 @@ void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, 
 				if(optarg) snake_delay = setSnakeDelay(optarg); break;
 			case 'f':
 				if(optarg) min_fruits = setMinFruits(optarg); break;
+			case 'l':
+				if(optarg) beg_length = setBegLength(optarg); break;
 			case 'h': 
 			default: printHelp(); break;
 		}
@@ -117,6 +123,9 @@ void printHelp() {
 	std::cout<<" \tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
 	std::cout<<" -f N\tminimal number of fruits at one time. When there's less fruits than N,"<<std::endl;
 	std::cout<<" \tthe game will spawn a new one each step until there's enough. (default: 1)"<<std::endl;
+	std::cout<<" -l L\tchange initial length of the snake. L must be a positive integer number."<<std::endl;
+	std::cout<<"\t This is the length without head. Eg. `-l 1` will result in a snake with a head"<<std::endl;
+	std::cout<<"\t*and* one body element."<<std::endl;
 	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl<<std::endl;
 
 	std::cout<<"In game controls:"<<std::endl;
@@ -189,10 +198,23 @@ int setMinFruits(char* num_str) {
 	return min_num;
 }
 
-void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size) {
+int setBegLength(char* len_str) {
+	int len_num = 0;
+	std::string len_string(len_str);
+
+	try {
+		len_num = std::stoi(len_str);
+	} catch(...){};
+
+	if(len_num<0) len_num = 0;
+
+	return len_num;
+}
+
+void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size, int beg_len) {
 	int min_fruits = fruit_manager.getMinFruits();
 
-	snake 		   = Snake(IntPair(win_size.x/2, win_size.y/2), RIGHT);
+	snake 		   = Snake(IntPair(win_size.x/2, win_size.y/2), RIGHT, beg_len);
 	fruit_manager  = FruitManager(min_fruits);
 }
 

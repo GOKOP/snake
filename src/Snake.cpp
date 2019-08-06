@@ -1,8 +1,8 @@
 #include "Snake.hpp"
 
-Snake::Snake(IntPair start_pos, Direction start_direction) {
+Snake::Snake(IntPair start_pos, Direction start_direction, int size) {
 	body.push_back(BodyPiece(start_pos, start_direction));
-	how_fed = 3;
+	how_fed = size;
 }
 
 int Snake::getBodySize() {

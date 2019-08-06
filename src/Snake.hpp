@@ -9,7 +9,7 @@ class Snake {
 	int how_fed; // how much body will grow
 
 public:
-	Snake(IntPair start_pos, Direction start_direction);
+	Snake(IntPair start_pos, Direction start_direction, int size);
 
 	int getBodySize();
 	IntPair getBodyPiecePos(int index);
