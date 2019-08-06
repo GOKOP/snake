@@ -126,7 +126,8 @@ void printHelp() {
 	std::cout<<" -l L\tchange initial length of the snake. L must be a positive integer number."<<std::endl;
 	std::cout<<"\t This is the length without head. Eg. `-l 1` will result in a snake with a head"<<std::endl;
 	std::cout<<"\t*and* one body element."<<std::endl;
-	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl<<std::endl;
+	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
+	std::cout<<"Note: all numbers given to above options must be positive integers."<<std::endl<<std::endl;
 
 	std::cout<<"In game controls:"<<std::endl;
 	std::cout<<" arrows, wasd, hjkl"<<std::endl;
@@ -178,6 +179,8 @@ int setSnakeDelay(char* delay_str) {
 		try {
 			delay = std::stoi(delay_string);
 		} catch(...){};
+
+		if(delay<0) delay = 0;
 	} // else set based on predefined speed
 	else if(delay_string == "1") delay = SPEED1;
 	else if(delay_string == "2") delay = SPEED2;
@@ -194,6 +197,8 @@ int setMinFruits(char* num_str) {
 	try {
 		min_num = std::stoi(num_string);
 	} catch(...){};
+	
+	if(min_num<0) min_num = 0;
 
 	return min_num;
 }
