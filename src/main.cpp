@@ -83,9 +83,9 @@ int main(int argc, char* argv[]) {
 		else if(state == RUNNING) {
 			// weird order ensures that state changed by processGameInput() won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
+			display.printGame(snake, fruit_manager.getFruits());
 			millisleep(snake_delay);
 			processGameInput(display.getWindow(), snake, state);
-			display.printGame(snake, fruit_manager.getFruits());
 		}
 		else if(state == QUIT) {
 			endwin();
