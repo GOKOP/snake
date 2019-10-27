@@ -12,7 +12,7 @@
 #include "Enums.hpp"
 #include "Menu.hpp"
 
-#define VERSION "v1.1.1"
+#define VERSION "v1.1.2"
 
 #define DEF_MIN_FRUITS 1
 #define DEF_WIDTH  40

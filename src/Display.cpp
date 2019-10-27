@@ -42,10 +42,16 @@ void Display::colorInit() {
 void Display::windowInit() {
 	getmaxyx(stdscr, term_size.y, term_size.x);
 
-	IntPair win_pos = findCenteredPos(win_size, term_size);
-	win = newwin(win_size.y, win_size.x, win_pos.y, win_pos.x);
-	nodelay(win, TRUE);
-	keypad(win, TRUE);
+	if(term_size.x<win_size.x || term_size.y<win_size.y) {
+		win = newwin(term_size.x, term_size.y, 0, 0);
+		printString(IntPair(0,0), "PLS MAKE TERM BIGGER");
+	}
+	else {
+		IntPair win_pos = findCenteredPos(win_size, term_size);
+		win = newwin(win_size.y, win_size.x, win_pos.y, win_pos.x);
+		nodelay(win, TRUE);
+		keypad(win, TRUE);
+	}
 }
 
 IntPair Display::findCenteredPos(IntPair win_size, IntPair term_size) {
