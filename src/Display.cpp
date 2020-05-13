@@ -12,6 +12,7 @@ WINDOW* Display::getWindow() {
 }
 
 void Display::cursesInit() {
+	setlocale(LC_ALL, "");
 	initscr();
 	cbreak();
 	noecho();
@@ -62,7 +63,7 @@ IntPair Display::findCenteredPos(IntPair win_size, IntPair term_size) {
 	return centered_pos;
 }
 
-void Display::printChar(IntPair pos, char ch, ColorPair* color) {
+void Display::printChar(IntPair pos, wchar_t ch, ColorPair* color) {
 	IntPair max_pos;
 	getmaxyx(win, max_pos.y, max_pos.x);
 
@@ -88,6 +89,18 @@ void Display::printString(IntPair pos, std::string str, ColorPair* color) {
 	}
 }
 
+void Display::printString(IntPair pos, std::wstring str, ColorPair* color) {
+	IntPair max_pos;
+	getmaxyx(win, max_pos.y, max_pos.x);
+
+	if(color!=NULL) color->enable(win);
+
+	if(pos.x>=0 && pos.x+str.size()<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
+		wmove(win, pos.y, pos.x);
+		waddwstr(win, str.c_str());
+	}
+}
+
 void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
@@ -100,10 +113,31 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	}
 	
 	for(int i=0; i<snake.getBodySize(); ++i) {
-		if(i==0)
+		if(i==0) {
 			printChar(snake.getBodyPiecePos(i), SNAKE_HEAD, color_snake);
-		else 
-			printChar(snake.getBodyPiecePos(i), SNAKE_BODY, color_snake); 
+		} else {
+			IntPair pos      = snake.getBodyPiecePos(i);
+			IntPair prev_pos = snake.getBodyPiecePos(i-1);
+
+			if(i < snake.getBodySize()-1) {
+				IntPair next_pos = snake.getBodyPiecePos(i+1);
+				
+				if(pos.x == prev_pos.x == next_pos.x)
+					printString(snake.getBodyPiecePos(i), "\u2503", color_snake);
+				else if(pos.y == prev_pos.y == next_pos.y)
+					printString(snake.getBodyPiecePos(i), "\u2501", color_snake);
+				else if(pos.x<prev_pos.x && pos.y<next_pos.y)
+					printString(snake.getBodyPiecePos(i), "\u250F", color_snake);
+				else if(pos.x>prev_pos.x && pos.y<next_pos.y)
+					printString(snake.getBodyPiecePos(i), "\u2513", color_snake);
+				else if(pos.y>prev_pos.y && pos.x<next_pos.x)
+					printString(snake.getBodyPiecePos(i), "\u2517", color_snake);
+				else if(pos.x>prev_pos.x && pos.y>next_pos.y)
+					printString(snake.getBodyPiecePos(i), "\u251B", color_snake);
+			} else {
+				printChar(snake.getBodyPiecePos(i), 'B', color_snake);
+			}
+		}
 	} 
 
 	printString(IntPair(1, win_size.y-1), "Body: " + std::to_string( snake.getBodySize() ), color_scores);

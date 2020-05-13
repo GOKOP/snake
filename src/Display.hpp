@@ -43,8 +43,9 @@ public:
 	void cursesInit();
 	void colorInit();
 	void windowInit();
-	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
+	void printChar(IntPair pos, wchar_t ch, ColorPair* color=NULL);
 	void printString(IntPair pos, std::string str, ColorPair* color=NULL);
+	void printString(IntPair pos, std::wstring str, ColorPair* color=NULL);
 	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printMenu(Menu menu);
 	void printDead(IntPair snake_pos);
