@@ -20,10 +20,10 @@
 #define DEF_LENGTH 3
 
 // delay in milliseconds
-#define SPEED1 15
-#define SPEED2 10
-#define SPEED3 5
-#define SPEED4 3
+#define SPEED1 150
+#define SPEED2 100
+#define SPEED3 50
+#define SPEED4 30
 
 void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits, int& beg_length);
 void printHelp();
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
 
 	handleOptions(argc, argv, win_size, snake_delay, min_fruits, beg_length);
 
-	if(snake_delay == 0) snake_delay = 10;
+	if(snake_delay == 0) snake_delay = 100;
 	if(win_size    == IntPair(0,0)) win_size = IntPair(DEF_WIDTH,DEF_HEIGHT);
 	if(min_fruits  == 0) min_fruits = DEF_MIN_FRUITS;
 	if(beg_length  == 0) beg_length = DEF_LENGTH;
@@ -67,11 +67,11 @@ int main(int argc, char* argv[]) {
 		if(state == MAIN_MENU) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
-			millisleep(1); // ensures that the loop won't pointlessly take the whole cpu
+			millisleep(10); // ensures that the loop won't pointlessly take the whole cpu
 		}
 		else if(state == LOST) {
 			display.printDead(snake.getHeadPos());
-			millisleep(200);
+			millisleep(2000);
 			clearInput(display.getWindow());
 			gameReset(snake, fruit_manager, win_size, beg_length);
 			state = MAIN_MENU;
@@ -164,7 +164,7 @@ IntPair setWinSize(char* size_str) {
 }
 
 void millisleep(int millisec) {
-	usleep(millisec*10000);
+	usleep(millisec*1000);
 }
 
 int setSnakeDelay(char* delay_str) {
