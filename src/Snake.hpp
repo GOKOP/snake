@@ -2,11 +2,15 @@
 #define SNAKE_HPP
 
 #include <vector>
-#include "BodyPiece.hpp"
+#include "IntPair.hpp"
+#include "Enums.hpp"
 
 class Snake {
-	std::vector<BodyPiece> body; //head is the first element
+	std::vector<IntPair> body; //head is the first element
 	int how_fed; // how much body will grow
+	Direction head_direction; // where is the head heading
+
+	void move_head();
 
 public:
 	Snake(IntPair start_pos, Direction start_direction, int size);

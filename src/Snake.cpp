@@ -1,8 +1,9 @@
 #include "Snake.hpp"
 
 Snake::Snake(IntPair start_pos, Direction start_direction, int size) {
-	body.push_back(BodyPiece(start_pos, start_direction));
+	body.push_back(start_pos);
 	how_fed = size;
+	head_direction = start_direction;
 }
 
 int Snake::getBodySize() {
@@ -10,15 +11,15 @@ int Snake::getBodySize() {
 }
 
 IntPair Snake::getBodyPiecePos(int index) {
-	return body[index].getPos();	
+	return body[index];
 }
 
 IntPair Snake::getHeadPos() {
-	return body[0].getPos();
+	return body[0];
 }
 
 Direction Snake::getDirection() {
-	return body[0].getDirection();
+	return head_direction;
 }
 
 int Snake::howFed() {
@@ -32,19 +33,33 @@ void Snake::feed(int amount) {
 void Snake::advancePos() {
 	for(int i=body.size()-1; i>=0; --i) {
 		if(i==body.size()-1 && how_fed>0) {
-			IntPair old_pos         = body[i].getPos();
-			Direction old_direction = body[i].getDirection();
-			body.push_back(BodyPiece(old_pos, old_direction));
+			body.push_back(body[i]);
 			how_fed -= 1;
 		}
 
 		if(i==0)
-			body[i].move(body[i].getDirection());
+			move_head();
 		else
-			body[i].move(body[i-1].getDirection());
+			body[i] = body[i-1];
 	}
 }
 
 void Snake::turn(Direction new_direction) {
-	body[0].turn(new_direction);	
+	head_direction = new_direction;
 }
+
+void Snake::move_head() {
+	switch(head_direction) {
+		case UP:
+			body[0] = IntPair(body[0].x, body[0].y-1); break;
+		case DOWN:
+			body[0] = IntPair(body[0].x, body[0].y+1); break;
+		case LEFT:
+			body[0] = IntPair(body[0].x-1, body[0].y); break;
+		case RIGHT:
+			body[0] = IntPair(body[0].x+1, body[0].y); break;
+		default:
+			break;
+	}
+}
+
