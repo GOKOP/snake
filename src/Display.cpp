@@ -66,21 +66,21 @@ void Display::printChar(std::pair<int, int> pos, char ch, ColorPair* color) {
 	std::pair<int, int> max_pos;
 	getmaxyx(win, max_pos.second, max_pos.first);
 
-	if(color!=NULL) color->enable(win);
+	if(color!=nullptr) color->enable(win);
 
 	if(pos.first>=0 && pos.first<max_pos.first && pos.second>=0 && pos.second<max_pos.second) {
 		wmove(win, pos.second, pos.first);
 		waddch(win, ch);
 	}
 
-	if(color!=NULL) color->disable(win);
+	if(color!=nullptr) color->disable(win);
 }
 
 void Display::printString(std::pair<int, int> pos, std::string str, ColorPair* color) {
 	std::pair<int, int> max_pos;
 	getmaxyx(win, max_pos.second, max_pos.first);
 
-	if(color!=NULL) color->enable(win);
+	if(color!=nullptr) color->enable(win);
 
 	if(pos.first>=0 && pos.first+str.size()<max_pos.first && pos.second>=0 && pos.second<max_pos.second) {
 		wmove(win, pos.second, pos.first);
