@@ -1,13 +1,13 @@
 #include "Fruit.hpp"
 
 Fruit::Fruit(int new_x, int new_y, int val) {
-	pos.x = new_x;
-	pos.y = new_y;
+	pos.first = new_x;
+	pos.second = new_y;
 	value = val;
 }
 
-Fruit::Fruit(IntPair new_pos, int val) {
-	pos.x = new_pos.x;
-	pos.y = new_pos.y;
+Fruit::Fruit(std::pair<int, int> new_pos, int val) {
+	pos.first = new_pos.first;
+	pos.second = new_pos.second;
 	value = val;
 }

@@ -1,6 +1,6 @@
 #include "Snake.hpp"
 
-Snake::Snake(IntPair start_pos, Direction start_direction, int size) {
+Snake::Snake(std::pair<int, int> start_pos, Direction start_direction, int size) {
 	body.push_back(start_pos);
 	how_fed = size;
 	head_direction = start_direction;
@@ -10,11 +10,11 @@ int Snake::getBodySize() {
 	return body.size();
 }
 
-IntPair Snake::getBodyPiecePos(int index) {
+std::pair<int, int> Snake::getBodyPiecePos(int index) {
 	return body[index];
 }
 
-IntPair Snake::getHeadPos() {
+std::pair<int, int> Snake::getHeadPos() {
 	return body[0];
 }
 
@@ -51,13 +51,13 @@ void Snake::turn(Direction new_direction) {
 void Snake::move_head() {
 	switch(head_direction) {
 		case UP:
-			body[0] = IntPair(body[0].x, body[0].y-1); break;
+			body[0] = {body[0].first, body[0].second-1}; break;
 		case DOWN:
-			body[0] = IntPair(body[0].x, body[0].y+1); break;
+			body[0] = {body[0].first, body[0].second+1}; break;
 		case LEFT:
-			body[0] = IntPair(body[0].x-1, body[0].y); break;
+			body[0] = {body[0].first-1, body[0].second}; break;
 		case RIGHT:
-			body[0] = IntPair(body[0].x+1, body[0].y); break;
+			body[0] = {body[0].first+1, body[0].second}; break;
 		default:
 			break;
 	}

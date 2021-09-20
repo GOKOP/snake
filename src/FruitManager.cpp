@@ -6,19 +6,19 @@ FruitManager::FruitManager(int new_min) {
 	min_fruits = new_min;
 }
 
-void FruitManager::add(IntPair win_size) {
-	int rand_x = rand()%(win_size.x-2)+1;
-	int rand_y = rand()%(win_size.y-2)+1;
+void FruitManager::add(std::pair<int, int> win_size) {
+	int rand_x = rand()%(win_size.first-2)+1;
+	int rand_y = rand()%(win_size.second-2)+1;
 
 	bool conflicts = false;
 	do {
 		conflicts = false;
 		for(int i=0; i<getFruitCount(); ++i) {
-			if(fruits[i].pos == IntPair(rand_x, rand_y)) conflicts = true;
+			if(fruits[i].pos == std::pair<int, int>(rand_x, rand_y)) conflicts = true;
 		}
 		if(conflicts) {
-			rand_x = rand()%(win_size.x-2)+1;
-			rand_y = rand()%(win_size.y-2)+1;
+			rand_x = rand()%(win_size.first-2)+1;
+			rand_y = rand()%(win_size.second-2)+1;
 		}
 	} while(conflicts);
 

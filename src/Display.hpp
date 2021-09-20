@@ -3,8 +3,8 @@
 
 #include <curses.h>
 #include <string>
+#include <utility>
 
-#include "IntPair.hpp"
 #include "Snake.hpp"
 #include "Fruit.hpp"
 #include "ColorPair.hpp"
@@ -20,8 +20,8 @@
 class Display {
 	WINDOW* win;
 	int COLOR_BACK; // background color
-	IntPair win_size;
-	IntPair term_size; // kept to check if it changed
+	std::pair<int, int> win_size;
+	std::pair<int, int> term_size; // kept to check if it changed
 	
 	//to be initialized int colorInit()
 	ColorPair* color_snake;
@@ -33,21 +33,21 @@ class Display {
 	ColorPair* color_menu_option;
 	ColorPair* color_menu_selected;
 
-	IntPair findCenteredPos(IntPair win_size, IntPair term_size);
+	std::pair<int, int> findCenteredPos(std::pair<int, int> win_size, std::pair<int, int> term_size);
 
 public:
-	Display(IntPair win_size);
+	Display(std::pair<int, int> win_size);
 
 	WINDOW* getWindow();
 
 	void cursesInit();
 	void colorInit();
 	void windowInit();
-	void printChar(IntPair pos, char ch, ColorPair* color=NULL);
-	void printString(IntPair pos, std::string str, ColorPair* color=NULL);
+	void printChar(std::pair<int, int> pos, char ch, ColorPair* color=NULL);
+	void printString(std::pair<int, int> pos, std::string str, ColorPair* color=NULL);
 	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printMenu(Menu menu);
-	void printDead(IntPair snake_pos);
+	void printDead(std::pair<int, int> snake_pos);
 	void checkTermSize();
 };
 

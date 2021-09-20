@@ -3,9 +3,9 @@
 
 #include <vector>
 #include <random>
+#include <utility>
 
 #include "Fruit.hpp"
-#include "IntPair.hpp"
 
 class FruitManager {
 	std::vector<Fruit> fruits;
@@ -18,7 +18,7 @@ public:
 	int getFruitCount();
 	int getMinFruits();
 
-	void add(IntPair win_size);
+	void add(std::pair<int, int> win_size);
 	void remove(int index);
 	void setMinFruits(int new_min);
 };

@@ -4,8 +4,8 @@
 #include <cstdlib>
 #include <ctype.h>
 #include <string>
+#include <utility>
 
-#include "IntPair.hpp"
 #include "Snake.hpp"
 #include "Display.hpp"
 #include "FruitManager.hpp"
@@ -25,22 +25,22 @@
 #define SPEED3 50
 #define SPEED4 30
 
-void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits, int& beg_length);
+void handleOptions(int argc, char* argv[], std::pair<int, int>& win_size, int& snake_delay, int& min_fruits, int& beg_length);
 void printHelp();
-IntPair setWinSize(char* size_str);
+std::pair<int, int> setWinSize(char* size_str);
 int setSnakeDelay(char* delay_str);
 int setMinFruits(char* num_str);
 int setBegLength(char* len_str);
 void millisleep(int millisec);
-void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size, int beg_len);
-GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager);
+void gameReset(Snake& snake, FruitManager& fruit_manager, std::pair<int, int> win_size, int beg_len);
+GameState advanceGame(Snake &snake, std::pair<int, int> win_size, FruitManager& fruit_manager);
 void processGameInput(WINDOW* win, Snake& snake, GameState& state);
 void processMenuInput(WINDOW* win, Menu& menu, GameState& state);
 void clearInput(WINDOW* win);
 Menu initMainMenu();
 
 int main(int argc, char* argv[]) {
-	IntPair win_size;
+	std::pair<int, int> win_size;
 	int snake_delay = 0;
 	int min_fruits  = 0;
 	int beg_length  = 0;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[]) {
 	handleOptions(argc, argv, win_size, snake_delay, min_fruits, beg_length);
 
 	if(snake_delay == 0) snake_delay = 100;
-	if(win_size    == IntPair(0,0)) win_size = IntPair(DEF_WIDTH,DEF_HEIGHT);
+	if(win_size    == std::pair<int, int>(0,0)) win_size = {DEF_WIDTH,DEF_HEIGHT};
 	if(min_fruits  == 0) min_fruits = DEF_MIN_FRUITS;
 	if(beg_length  == 0) beg_length = DEF_LENGTH;
 
@@ -57,7 +57,7 @@ int main(int argc, char* argv[]) {
 	Display display(win_size);
 
 	Menu main_menu = initMainMenu();
-	Snake snake(IntPair(win_size.x/2, win_size.y/2), RIGHT, beg_length);
+	Snake snake({win_size.first/2, win_size.second/2}, RIGHT, beg_length);
 	FruitManager fruit_manager(min_fruits);
 	GameState state = MAIN_MENU;
 	
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-void handleOptions(int argc, char* argv[], IntPair& win_size, int& snake_delay, int& min_fruits, int& beg_length) {
+void handleOptions(int argc, char* argv[], std::pair<int, int>& win_size, int& snake_delay, int& min_fruits, int& beg_length) {
 	int opt;
 	while( (opt = getopt(argc, argv, "hw:s:f:l:")) != -1 ) {
 		switch(opt) {
@@ -139,7 +139,7 @@ void printHelp() {
 	exit(0);
 }
 
-IntPair setWinSize(char* size_str) {
+std::pair<int, int> setWinSize(char* size_str) {
 	std::string width_str = "";
 	std::string height_str = "";
 	bool read_width = true;
@@ -160,7 +160,7 @@ IntPair setWinSize(char* size_str) {
 		height = std::stoi(height_str);
 	} catch(...){}; // no catching needed here
 
-	return IntPair(width, height);
+	return {width, height};
 }
 
 void millisleep(int millisec) {
@@ -216,14 +216,14 @@ int setBegLength(char* len_str) {
 	return len_num;
 }
 
-void gameReset(Snake& snake, FruitManager& fruit_manager, IntPair win_size, int beg_len) {
+void gameReset(Snake& snake, FruitManager& fruit_manager, std::pair<int, int> win_size, int beg_len) {
 	int min_fruits = fruit_manager.getMinFruits();
 
-	snake 		   = Snake(IntPair(win_size.x/2, win_size.y/2), RIGHT, beg_len);
+	snake 		   = Snake({win_size.first/2, win_size.second/2}, RIGHT, beg_len);
 	fruit_manager  = FruitManager(min_fruits);
 }
 
-GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manager) {
+GameState advanceGame(Snake &snake, std::pair<int, int> win_size, FruitManager& fruit_manager) {
 	if(fruit_manager.getFruits().size()<fruit_manager.getMinFruits()) {
 		fruit_manager.add(win_size);
 		
@@ -250,8 +250,8 @@ GameState advanceGame(Snake &snake, IntPair win_size, FruitManager& fruit_manage
 		}
 	}
 
-	if(snake.getHeadPos().x==0 || snake.getHeadPos().y==0 ||
-	   snake.getHeadPos().x==win_size.x-1 || snake.getHeadPos().y==win_size.y-1)
+	if(snake.getHeadPos().first==0 || snake.getHeadPos().second==0 ||
+	   snake.getHeadPos().first==win_size.first-1 || snake.getHeadPos().second==win_size.second-1)
 		return LOST;
 	else {
 		for(int i=1; i<snake.getBodySize(); ++i) {

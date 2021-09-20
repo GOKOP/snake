@@ -1,6 +1,6 @@
 #include "Display.hpp"
 
-Display::Display(IntPair new_win_size) {
+Display::Display(std::pair<int, int> new_win_size) {
 	cursesInit();
 	colorInit();
 	win_size = new_win_size;
@@ -40,50 +40,50 @@ void Display::colorInit() {
 }
 
 void Display::windowInit() {
-	getmaxyx(stdscr, term_size.y, term_size.x);
+	getmaxyx(stdscr, term_size.second, term_size.first);
 
-	if(term_size.x<win_size.x || term_size.y<win_size.y) {
-		win = newwin(term_size.x, term_size.y, 0, 0);
-		printString(IntPair(0,0), "PLS MAKE TERM BIGGER");
+	if(term_size.first<win_size.first || term_size.second<win_size.second) {
+		win = newwin(term_size.first, term_size.second, 0, 0);
+		printString({0,0}, "PLS MAKE TERM BIGGER");
 	}
 	else {
-		IntPair win_pos = findCenteredPos(win_size, term_size);
-		win = newwin(win_size.y, win_size.x, win_pos.y, win_pos.x);
+		std::pair<int, int> win_pos = findCenteredPos(win_size, term_size);
+		win = newwin(win_size.second, win_size.first, win_pos.second, win_pos.first);
 		nodelay(win, TRUE);
 		keypad(win, TRUE);
 	}
 }
 
-IntPair Display::findCenteredPos(IntPair win_size, IntPair term_size) {
-	IntPair centered_pos;
-	centered_pos.x = term_size.x/2 - win_size.x/2;
-	centered_pos.y = term_size.y/2 - win_size.y/2;
+std::pair<int, int> Display::findCenteredPos(std::pair<int, int> win_size, std::pair<int, int> term_size) {
+	std::pair<int, int> centered_pos;
+	centered_pos.first = term_size.first/2 - win_size.first/2;
+	centered_pos.second = term_size.second/2 - win_size.second/2;
 
 	return centered_pos;
 }
 
-void Display::printChar(IntPair pos, char ch, ColorPair* color) {
-	IntPair max_pos;
-	getmaxyx(win, max_pos.y, max_pos.x);
+void Display::printChar(std::pair<int, int> pos, char ch, ColorPair* color) {
+	std::pair<int, int> max_pos;
+	getmaxyx(win, max_pos.second, max_pos.first);
 
 	if(color!=NULL) color->enable(win);
 
-	if(pos.x>=0 && pos.x<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
-		wmove(win, pos.y, pos.x);
+	if(pos.first>=0 && pos.first<max_pos.first && pos.second>=0 && pos.second<max_pos.second) {
+		wmove(win, pos.second, pos.first);
 		waddch(win, ch);
 	}
 
 	if(color!=NULL) color->disable(win);
 }
 
-void Display::printString(IntPair pos, std::string str, ColorPair* color) {
-	IntPair max_pos;
-	getmaxyx(win, max_pos.y, max_pos.x);
+void Display::printString(std::pair<int, int> pos, std::string str, ColorPair* color) {
+	std::pair<int, int> max_pos;
+	getmaxyx(win, max_pos.second, max_pos.first);
 
 	if(color!=NULL) color->enable(win);
 
-	if(pos.x>=0 && pos.x+str.size()<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
-		wmove(win, pos.y, pos.x);
+	if(pos.first>=0 && pos.first+str.size()<max_pos.first && pos.second>=0 && pos.second<max_pos.second) {
+		wmove(win, pos.second, pos.first);
 		waddstr(win, str.c_str());
 	}
 }
@@ -106,12 +106,12 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 			printChar(snake.getBodyPiecePos(i), SNAKE_BODY, color_snake); 
 	} 
 
-	printString(IntPair(1, win_size.y-1), "Body: " + std::to_string( snake.getBodySize() ), color_scores);
+	printString({1, win_size.second-1}, "Body: " + std::to_string( snake.getBodySize() ), color_scores);
 
 	wrefresh(win);
 }
 
-void Display::printDead(IntPair snake_pos) {
+void Display::printDead(std::pair<int, int> snake_pos) {
 	printChar(snake_pos, SNAKE_DEAD, color_dead);
 	wrefresh(win);
 }
@@ -120,13 +120,13 @@ void Display::printMenu(Menu menu) {
 	werase(win);
 	
 	int menu_height = menu.getOptionCount()+2; // options + header and an empty line
-	if(menu_height > win_size.y) {
+	if(menu_height > win_size.second) {
 		waddstr(win, "win too small");
 		return;
 	}
 	
-	int menu_offset   = (win_size.y - menu_height)/2;		 	   // for vertical centering
-	int header_offset = (win_size.x - menu.getHeader().size())/2; // for horizontal centering
+	int menu_offset   = (win_size.second - menu_height)/2;		 	   // for vertical centering
+	int header_offset = (win_size.first - menu.getHeader().size())/2; // for horizontal centering
 
 	wmove(win, menu_offset, header_offset);
 
@@ -135,7 +135,7 @@ void Display::printMenu(Menu menu) {
 	color_menu_header->disable(win);
 
 	for(int i=0; i<menu.getOptionCount(); ++i) {
-		int option_offset = (win_size.x - menu.getOption(i).name.size())/2;
+		int option_offset = (win_size.first - menu.getOption(i).name.size())/2;
 		wmove(win, menu_offset+2+i, option_offset);
 
 		ColorPair* color;
@@ -147,14 +147,14 @@ void Display::printMenu(Menu menu) {
 		color->disable(win);
 	}
 
-	int corner_offset = (win_size.x - menu.getCornerText().size()); // for right align
-	wmove(win, win_size.y-1, corner_offset);
+	int corner_offset = (win_size.first - menu.getCornerText().size()); // for right align
+	wmove(win, win_size.second-1, corner_offset);
 	waddstr(win, menu.getCornerText().c_str());
 }
 
 void Display::checkTermSize() {
-	IntPair new_term;
-	getmaxyx(stdscr, new_term.y, new_term.x);
+	std::pair<int, int> new_term;
+	getmaxyx(stdscr, new_term.second, new_term.first);
 	if(new_term != term_size) {
 		erase();
 		refresh();
