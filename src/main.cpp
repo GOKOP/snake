@@ -219,7 +219,7 @@ int setBegLength(char* len_str) {
 void gameReset(Snake& snake, FruitManager& fruit_manager, std::pair<int, int> win_size, int beg_len) {
 	int min_fruits = fruit_manager.getMinFruits();
 
-	snake 		   = Snake({win_size.first/2, win_size.second/2}, RIGHT, beg_len);
+	snake          = Snake({win_size.first/2, win_size.second/2}, RIGHT, beg_len);
 	fruit_manager  = FruitManager(min_fruits);
 }
 

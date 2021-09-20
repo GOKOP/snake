@@ -125,7 +125,7 @@ void Display::printMenu(Menu menu) {
 		return;
 	}
 	
-	int menu_offset   = (win_size.second - menu_height)/2;		 	   // for vertical centering
+	int menu_offset   = (win_size.second - menu_height)/2;             // for vertical centering
 	int header_offset = (win_size.first - menu.getHeader().size())/2; // for horizontal centering
 
 	wmove(win, menu_offset, header_offset);
@@ -140,7 +140,7 @@ void Display::printMenu(Menu menu) {
 
 		ColorPair* color;
 		if(menu.getSelection() == i) color = color_menu_selected;
-		else					 	 color = color_menu_option;
+		else                         color = color_menu_option;
 
 		color->enable(win);
 		waddstr(win, menu.getOption(i).name.c_str());
