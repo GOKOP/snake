@@ -1,5 +1,4 @@
-#ifndef COLORPAIR_HPP
-#define COLORPAIR_HPP
+#pragma once
 
 #include <curses.h>
 
@@ -12,5 +11,3 @@ public:
 	void enable(WINDOW* win);
 	void disable(WINDOW* win);
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef MENU_HPP
-#define MENU_HPP
+#pragma once
 
 #include <vector>
 #include "MenuOption.hpp"
@@ -23,5 +22,3 @@ public:
 	void addOption(MenuOption option);
 	void moveSelection(Direction dir);
 };
-
-#endif

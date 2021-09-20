@@ -1,5 +1,4 @@
-#ifndef SNAKE_HPP
-#define SNAKE_HPP
+#pragma once
 
 #include <vector>
 #include <utility>
@@ -25,5 +24,3 @@ public:
 	void advancePos();
 	void turn(Direction new_direction);
 };
-
-#endif

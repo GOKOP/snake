@@ -1,5 +1,4 @@
-#ifndef DISPLAY_HPP
-#define DISPLAY_HPP
+#pragma once
 
 #include <curses.h>
 #include <string>
@@ -50,5 +49,3 @@ public:
 	void printDead(std::pair<int, int> snake_pos);
 	void checkTermSize();
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef MENU_OPTION_HPP
-#define MENU_OPTION_HPP
+#pragma once
 
 #include <string>
 #include "Enums.hpp"
@@ -11,5 +10,3 @@ public:
 
 	MenuOption(std::string new_name, GameState new_target_state);
 };
-
-#endif

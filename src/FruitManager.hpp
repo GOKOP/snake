@@ -1,5 +1,4 @@
-#ifndef FRUITMANAGER_HPP
-#define FRUITMANAGER_HPP
+#pragma once
 
 #include <vector>
 #include <random>
@@ -22,5 +21,3 @@ public:
 	void remove(int index);
 	void setMinFruits(int new_min);
 };
-
-#endif

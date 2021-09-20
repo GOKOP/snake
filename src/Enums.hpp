@@ -1,5 +1,4 @@
-#ifndef ENUMS_HPP
-#define ENUMS_HPP
+#pragma once
 
 enum GameState {
 	NONE,
@@ -16,5 +15,3 @@ enum Direction {
 	LEFT,
 	RIGHT
 };
-
-#endif

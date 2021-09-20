@@ -1,5 +1,4 @@
-#ifndef FRUIT_HPP
-#define FRUIT_HPP
+#pragma once
 
 #include <utility>
 
@@ -11,5 +10,3 @@ public:
 	Fruit(int new_x, int new_y, int val);
 	Fruit(std::pair<int, int> new_pos, int val);
 };
-
-#endif
