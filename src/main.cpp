@@ -173,7 +173,7 @@ int setSnakeDelay(char* delay_str) {
 	std::string delay_string(delay_str);
 	size_t size = delay_string.size();
 	// if given miliseconds, set the delay directly
-	if(delay_string[size-2]=='m' && delay_string[size-1]=='s') {
+	if(size >= 3 && delay_string[size-2]=='m' && delay_string[size-1]=='s') {
 		delay_string.erase(size-2);
 
 		try {
