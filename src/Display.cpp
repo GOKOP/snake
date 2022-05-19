@@ -47,14 +47,14 @@ void Display::windowInit() {
 		printString({0,0}, "PLS MAKE TERM BIGGER");
 	}
 	else {
-		std::pair<int, int> win_pos = findCenteredPos(win_size, term_size);
+		std::pair<int, int> win_pos = findCenteredPos();
 		win = newwin(win_size.second, win_size.first, win_pos.second, win_pos.first);
 		nodelay(win, TRUE);
 		keypad(win, TRUE);
 	}
 }
 
-std::pair<int, int> Display::findCenteredPos(std::pair<int, int> win_size, std::pair<int, int> term_size) {
+std::pair<int, int> Display::findCenteredPos() {
 	std::pair<int, int> centered_pos;
 	centered_pos.first = term_size.first/2 - win_size.first/2;
 	centered_pos.second = term_size.second/2 - win_size.second/2;

@@ -32,7 +32,7 @@ class Display {
 	ColorPair* color_menu_option;
 	ColorPair* color_menu_selected;
 
-	std::pair<int, int> findCenteredPos(std::pair<int, int> win_size, std::pair<int, int> term_size);
+	std::pair<int, int> findCenteredPos();
 
 public:
 	Display(std::pair<int, int> win_size);
