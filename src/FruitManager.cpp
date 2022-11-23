@@ -2,9 +2,7 @@
 #include <random>
 #include <algorithm>
 
-FruitManager::FruitManager(int new_min) {
-	min_fruits = new_min;
-}
+FruitManager::FruitManager(int min_fruits): min_fruits(min_fruits) {}
 
 void FruitManager::add(std::pair<int, int> win_size) {
 	int rand_x = rand()%(win_size.first-2)+1;
