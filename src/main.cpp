@@ -304,8 +304,8 @@ void clearInput(WINDOW* win) {
 
 Menu initMainMenu() {
 	Menu menu("[cool name here]", fixed_config::version);
-	menu.addOption(MenuOption("Start Game", RUNNING));
-	menu.addOption(MenuOption("Quit", QUIT));
+	menu.addOption(MenuOption{"Start Game", RUNNING});
+	menu.addOption(MenuOption{"Quit", QUIT});
 
 	return menu;
 }
