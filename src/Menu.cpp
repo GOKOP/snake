@@ -1,10 +1,10 @@
 #include "Menu.hpp"
 
-Menu::Menu(std::string new_header, std::string new_corner) {
-	header = new_header;
-	corner_text = new_corner;
-	selected_index = 0;
-}
+Menu::Menu(std::string_view header, std::string_view corner_text):
+	header(header),
+	corner_text(corner_text),
+	selected_index(0)
+{}
 
 std::string Menu::getHeader() {
 	return header;

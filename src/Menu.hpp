@@ -11,7 +11,7 @@ class Menu {
 
 public:
 	
-	Menu(std::string new_header, std::string new_corner="");
+	Menu(std::string_view header, std::string_view corner_text);
 
 	std::string getHeader();
 	std::string getCornerText();

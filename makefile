@@ -1,5 +1,5 @@
 COMPILER=g++
-FLAGS=-Isrc -lncurses -std=c++0x
+FLAGS=-Isrc -lncurses -std=c++17
 
 OBJDIR=obj
 SRCDIR=src
