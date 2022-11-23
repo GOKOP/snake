@@ -11,19 +11,7 @@
 #include "FruitManager.hpp"
 #include "Enums.hpp"
 #include "Menu.hpp"
-
-#define VERSION "v1.1.2"
-
-#define DEF_MIN_FRUITS 1
-#define DEF_WIDTH  40
-#define DEF_HEIGHT 20
-#define DEF_LENGTH 3
-
-// delay in milliseconds
-#define SPEED1 150
-#define SPEED2 100
-#define SPEED3 50
-#define SPEED4 30
+#include "globals.hpp"
 
 void handleOptions(int argc, char* argv[], std::pair<int, int>& win_size, int& snake_delay, int& min_fruits, int& beg_length);
 void printHelp();
@@ -48,9 +36,11 @@ int main(int argc, char* argv[]) {
 	handleOptions(argc, argv, win_size, snake_delay, min_fruits, beg_length);
 
 	if(snake_delay == 0) snake_delay = 100;
-	if(win_size    == std::pair<int, int>(0,0)) win_size = {DEF_WIDTH,DEF_HEIGHT};
-	if(min_fruits  == 0) min_fruits = DEF_MIN_FRUITS;
-	if(beg_length  == 0) beg_length = DEF_LENGTH;
+	if(win_size == std::pair<int, int>(0,0)) {
+		win_size = {default_config::width, default_config::height};
+	}
+	if(min_fruits  == 0) min_fruits = default_config::min_fruits;
+	if(beg_length  == 0) beg_length = default_config::snake_length;
 
 	srand(time(NULL));
 	
@@ -115,27 +105,27 @@ void handleOptions(int argc, char* argv[], std::pair<int, int>& win_size, int& s
 	}
 }
 void printHelp() {
-	std::cout<<"Snake game written in ncurses, configurable through command line options."<<std::endl;
-	std::cout<<"Available options are:"<<std::endl;
-	std::cout<<" -h\tprint this message"<<std::endl;
-	std::cout<<" -w XxY\tchange game window's width to X and height to Y (default: "<<DEF_WIDTH<<"x"<<DEF_HEIGHT<<")"<<std::endl;
-	std::cout<<" -s S\tchange snake's speed. S can be a number from 1 to 4 or a number of"<<std::endl;
-	std::cout<<" \tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)"<<std::endl;
-	std::cout<<" -f N\tminimal number of fruits at one time. When there's less fruits than N,"<<std::endl;
-	std::cout<<" \tthe game will spawn a new one each step until there's enough. (default: 1)"<<std::endl;
-	std::cout<<" -l L\tchange initial length of the snake. L must be a positive integer number."<<std::endl;
-	std::cout<<"\t This is the length without head. Eg. `-l 1` will result in a snake with a head"<<std::endl;
-	std::cout<<"\t*and* one body element."<<std::endl;
-	std::cout<<"If incorrect values are given, defaults will be used."<<std::endl;
-	std::cout<<"Note: all numbers given to above options must be positive integers."<<std::endl<<std::endl;
+	std::cout<<"Snake game written in ncurses, configurable through command line options.\n";
+	std::cout<<"Available options are:\n";
+	std::cout<<" -h\tprint this message\n";
+	std::cout<<" -w XxY\tchange game window's width to X and height to Y (default: "<<default_config::width<<"x"<<default_config::height<<")\n";
+	std::cout<<" -s S\tchange snake's speed. S can be a number from 1 to 4 or a number of\n";
+	std::cout<<" \tmilliseconds (appended with \"ms\") between snake moves (default: 2 or 10ms)\n";
+	std::cout<<" -f N\tminimal number of fruits at one time. When there's less fruits than N,\n";
+	std::cout<<" \tthe game will spawn a new one each step until there's enough. (default: 1)\n";
+	std::cout<<" -l L\tchange initial length of the snake. L must be a positive integer number.\n";
+	std::cout<<"\t This is the length without head. Eg. `-l 1` will result in a snake with a head\n";
+	std::cout<<"\t*and* one body element.\n";
+	std::cout<<"If incorrect values are given, defaults will be used.\n";
+	std::cout<<"Note: all numbers given to above options must be positive integers.\n";
 
-	std::cout<<"In game controls:"<<std::endl;
-	std::cout<<" arrows, wasd, hjkl"<<std::endl;
-	std::cout<<"\tmovement (both in game and menu)"<<std::endl;
-	std::cout<<" enter, right arrow, d, l"<<std::endl;
-	std::cout<<"\tselect option (in menu)"<<std::endl;
-	std::cout<<" q"<<std::endl;
-	std::cout<<"\tquit to menu (in game), exit game (in menu)"<<std::endl;
+	std::cout<<"In game controls:\n";
+	std::cout<<" arrows, wasd, hjkl\n";
+	std::cout<<"\tmovement (both in game and menu)\n";
+	std::cout<<" enter, right arrow, d, l\n";
+	std::cout<<"\tselect option (in menu)\n";
+	std::cout<<" q\n";
+	std::cout<<"\tquit to menu (in game), exit game (in menu)\n";
 	exit(0);
 }
 
@@ -182,10 +172,10 @@ int setSnakeDelay(char* delay_str) {
 
 		if(delay<0) delay = 0;
 	} // else set based on predefined speed
-	else if(delay_string == "1") delay = SPEED1;
-	else if(delay_string == "2") delay = SPEED2;
-	else if(delay_string == "3") delay = SPEED3;
-	else if(delay_string == "4") delay = SPEED4;
+	else if(delay_string == "1") delay = fixed_config::speed1_ms;
+	else if(delay_string == "2") delay = fixed_config::speed2_ms;
+	else if(delay_string == "3") delay = fixed_config::speed3_ms;
+	else if(delay_string == "4") delay = fixed_config::speed4_ms;
 
 	return delay;
 }
@@ -313,7 +303,7 @@ void clearInput(WINDOW* win) {
 }
 
 Menu initMainMenu() {
-	Menu menu("[cool name here]", VERSION);
+	Menu menu("[cool name here]", fixed_config::version);
 	menu.addOption(MenuOption("Start Game", RUNNING));
 	menu.addOption(MenuOption("Quit", QUIT));
 
