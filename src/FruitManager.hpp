@@ -12,10 +12,11 @@ class FruitManager {
 
 public:
 	FruitManager(int new_min);
-	std::vector<Fruit> getFruits();
-	Fruit getFruit(int index);
-	int getFruitCount();
-	int getMinFruits();
+
+	const std::vector<Fruit>& getFruits() const;
+	Fruit getFruit(int index) const;
+	int getFruitCount() const;
+	int getMinFruits() const;
 
 	void add(std::pair<int, int> win_size);
 	void remove(int index);

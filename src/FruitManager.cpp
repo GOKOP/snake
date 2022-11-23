@@ -29,15 +29,15 @@ void FruitManager::remove(int index) {
 	if(index>=0 && index<fruits.size()) fruits.erase(fruits.begin() + index);
 }
 
-std::vector<Fruit> FruitManager::getFruits() {
+const std::vector<Fruit>& FruitManager::getFruits() const {
 	return fruits;
 }
 
-Fruit FruitManager::getFruit(int index) {
+Fruit FruitManager::getFruit(int index) const {
 	return fruits[index];
 }
 
-int FruitManager::getFruitCount() {
+int FruitManager::getFruitCount() const {
 	return fruits.size();
 }
 
@@ -45,6 +45,6 @@ void FruitManager::setMinFruits(int new_min) {
 	min_fruits = new_min;
 }
 
-int FruitManager::getMinFruits() {
+int FruitManager::getMinFruits() const {
 	return min_fruits;
 }
