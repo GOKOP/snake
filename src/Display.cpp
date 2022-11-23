@@ -131,7 +131,7 @@ void Display::printMenu(Menu menu) {
 	wmove(win, menu_offset, header_offset);
 
 	color_menu_header->enable(win);
-	waddstr(win, menu.getHeader().c_str());
+	waddstr(win, menu.getHeader().data());
 	color_menu_header->disable(win);
 
 	for(int i=0; i<menu.getOptionCount(); ++i) {
@@ -149,7 +149,7 @@ void Display::printMenu(Menu menu) {
 
 	int corner_offset = (win_size.first - menu.getCornerText().size()); // for right align
 	wmove(win, win_size.second-1, corner_offset);
-	waddstr(win, menu.getCornerText().c_str());
+	waddstr(win, menu.getCornerText().data());
 }
 
 void Display::checkTermSize() {

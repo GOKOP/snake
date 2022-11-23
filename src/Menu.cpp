@@ -6,27 +6,27 @@ Menu::Menu(std::string_view header, std::string_view corner_text):
 	selected_index(0)
 {}
 
-std::string Menu::getHeader() {
+std::string_view Menu::getHeader() const {
 	return header;
 }
 
-std::string Menu::getCornerText() {
+std::string_view Menu::getCornerText() const {
 	return corner_text;
 }
 
-int Menu::getOptionCount() {
+int Menu::getOptionCount() const {
 	return options.size();
 }
 
-int Menu::getSelection() {
+int Menu::getSelection() const {
 	return selected_index;
 }
 
-MenuOption Menu::getOption(int index) {
+const MenuOption& Menu::getOption(int index) const {
 	return options[index];
 }
 
-void Menu::addOption(MenuOption option) {
+void Menu::addOption(const MenuOption& option) {
 	options.push_back(option);
 }
 

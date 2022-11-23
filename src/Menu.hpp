@@ -13,12 +13,12 @@ public:
 	
 	Menu(std::string_view header, std::string_view corner_text);
 
-	std::string getHeader();
-	std::string getCornerText();
-	int getOptionCount();
-	int getSelection();
-	MenuOption getOption(int index);
+	std::string_view getHeader() const;
+	std::string_view getCornerText() const;
+	int getOptionCount() const;
+	int getSelection() const;
+	const MenuOption& getOption(int index) const;
 
-	void addOption(MenuOption option);
+	void addOption(const MenuOption& option);
 	void moveSelection(Direction dir);
 };
