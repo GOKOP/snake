@@ -20,7 +20,7 @@ void FruitManager::add(std::pair<int, int> win_size) {
 		}
 	} while(conflicts);
 
-	fruits.push_back(Fruit(rand_x, rand_y, 1));
+	fruits.push_back(Fruit{std::make_pair(rand_x, rand_y), 1});
 }
 
 void FruitManager::remove(int index) {
