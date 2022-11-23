@@ -4,23 +4,23 @@
 
 FruitManager::FruitManager(int min_fruits): min_fruits(min_fruits) {}
 
-void FruitManager::add(std::pair<int, int> win_size) {
-	int rand_x = rand()%(win_size.first-2)+1;
-	int rand_y = rand()%(win_size.second-2)+1;
+void FruitManager::add(Vector2i win_size) {
+	int rand_x = rand()%(win_size.x-2)+1;
+	int rand_y = rand()%(win_size.y-2)+1;
 
 	bool conflicts = false;
 	do {
 		conflicts = false;
 		for(int i=0; i<getFruitCount(); ++i) {
-			if(fruits[i].pos == std::pair<int, int>(rand_x, rand_y)) conflicts = true;
+			if(fruits[i].pos == Vector2i{rand_x, rand_y}) conflicts = true;
 		}
 		if(conflicts) {
-			rand_x = rand()%(win_size.first-2)+1;
-			rand_y = rand()%(win_size.second-2)+1;
+			rand_x = rand()%(win_size.x-2)+1;
+			rand_y = rand()%(win_size.y-2)+1;
 		}
 	} while(conflicts);
 
-	fruits.push_back(Fruit{std::make_pair(rand_x, rand_y), 1});
+	fruits.push_back(Fruit{{rand_x, rand_y}, 1});
 }
 
 void FruitManager::remove(int index) {
