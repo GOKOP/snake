@@ -8,6 +8,7 @@ class ColorPair { // class to nicely manage ncurses colors with bold attribute n
 
 public:
 	ColorPair(int num, int fground, int bground, bool bold=false);
-	void enable(WINDOW* win);
-	void disable(WINDOW* win);
+	ColorPair();
+	void enable(WINDOW* win) const;
+	void disable(WINDOW* win) const;
 };

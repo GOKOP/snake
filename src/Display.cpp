@@ -27,15 +27,15 @@ void Display::colorInit() {
 		else
 			COLOR_BACK = COLOR_BLACK;
 
-		color_snake  = new ColorPair(1, COLOR_GREEN, COLOR_BACK, true);
-		color_dead   = new ColorPair(2, COLOR_RED, COLOR_BACK, true);
-		color_border = new ColorPair(3, COLOR_WHITE, COLOR_WHITE);
-		color_fruit  = new ColorPair(4, COLOR_RED, COLOR_BACK);
-		color_scores = new ColorPair(5, COLOR_BLACK, COLOR_WHITE);
+		color_snake  = ColorPair(1, COLOR_GREEN, COLOR_BACK, true);
+		color_dead   = ColorPair(2, COLOR_RED, COLOR_BACK, true);
+		color_border = ColorPair(3, COLOR_WHITE, COLOR_WHITE);
+		color_fruit  = ColorPair(4, COLOR_RED, COLOR_BACK);
+		color_scores = ColorPair(5, COLOR_BLACK, COLOR_WHITE);
 		
-		color_menu_header   = new ColorPair(6, COLOR_CYAN, COLOR_BACK, true);
-		color_menu_option   = new ColorPair(7, COLOR_WHITE, COLOR_BACK, true);
-		color_menu_selected = new ColorPair(8, COLOR_WHITE, COLOR_GREEN, true);
+		color_menu_header   = ColorPair(6, COLOR_CYAN, COLOR_BACK, true);
+		color_menu_option   = ColorPair(7, COLOR_WHITE, COLOR_BACK, true);
+		color_menu_selected = ColorPair(8, COLOR_WHITE, COLOR_GREEN, true);
 	}
 }
 
@@ -62,25 +62,25 @@ Vector2i Display::findCenteredPos() {
 	return centered_pos;
 }
 
-void Display::printChar(Vector2i pos, char ch, ColorPair* color) {
+void Display::printChar(Vector2i pos, char ch, ColorPair color) {
 	Vector2i max_pos;
 	getmaxyx(win, max_pos.y, max_pos.x);
 
-	if(color!=nullptr) color->enable(win);
+	color.enable(win);
 
 	if(pos.x>=0 && pos.x<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
 		wmove(win, pos.y, pos.x);
 		waddch(win, ch);
 	}
 
-	if(color!=nullptr) color->disable(win);
+	color.disable(win);
 }
 
-void Display::printString(Vector2i pos, std::string str, ColorPair* color) {
+void Display::printString(Vector2i pos, std::string str, ColorPair color) {
 	Vector2i max_pos;
 	getmaxyx(win, max_pos.y, max_pos.x);
 
-	if(color!=nullptr) color->enable(win);
+	color.enable(win);
 
 	if(pos.x>=0 && pos.x+str.size()<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
 		wmove(win, pos.y, pos.x);
@@ -91,9 +91,9 @@ void Display::printString(Vector2i pos, std::string str, ColorPair* color) {
 void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
-	color_border->enable(win);
+	color_border.enable(win);
 	wborder(win, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER);
-	color_border->disable(win);
+	color_border.disable(win);
 
 	for(int i=0; i<fruits.size(); ++i) {
 		printChar(fruits[i].pos, FRUIT, color_fruit);
@@ -130,21 +130,21 @@ void Display::printMenu(Menu menu) {
 
 	wmove(win, menu_offset, header_offset);
 
-	color_menu_header->enable(win);
+	color_menu_header.enable(win);
 	waddstr(win, menu.getHeader().data());
-	color_menu_header->disable(win);
+	color_menu_header.disable(win);
 
 	for(int i=0; i<menu.getOptionCount(); ++i) {
 		int option_offset = (win_size.x - menu.getOption(i).name.size())/2;
 		wmove(win, menu_offset+2+i, option_offset);
 
-		ColorPair* color;
+		ColorPair color;
 		if(menu.getSelection() == i) color = color_menu_selected;
 		else                         color = color_menu_option;
 
-		color->enable(win);
+		color.enable(win);
 		waddstr(win, menu.getOption(i).name.c_str());
-		color->disable(win);
+		color.disable(win);
 	}
 
 	int corner_offset = (win_size.x - menu.getCornerText().size()); // for right align

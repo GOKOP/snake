@@ -23,14 +23,14 @@ class Display {
 	Vector2i term_size; // kept to check if it changed
 	
 	//to be initialized int colorInit()
-	ColorPair* color_snake;
-	ColorPair* color_dead;
-	ColorPair* color_border;
-	ColorPair* color_fruit;
-	ColorPair* color_scores;
-	ColorPair* color_menu_header;
-	ColorPair* color_menu_option;
-	ColorPair* color_menu_selected;
+	ColorPair color_snake;
+	ColorPair color_dead;
+	ColorPair color_border;
+	ColorPair color_fruit;
+	ColorPair color_scores;
+	ColorPair color_menu_header;
+	ColorPair color_menu_option;
+	ColorPair color_menu_selected;
 
 	Vector2i findCenteredPos();
 
@@ -42,8 +42,8 @@ public:
 	void cursesInit();
 	void colorInit();
 	void windowInit();
-	void printChar(Vector2i pos, char ch, ColorPair* color=NULL);
-	void printString(Vector2i pos, std::string str, ColorPair* color=NULL);
+	void printChar(Vector2i pos, char ch, ColorPair color=ColorPair());
+	void printString(Vector2i pos, std::string str, ColorPair color=ColorPair());
 	void printGame(Snake snake, std::vector<Fruit> fruits);
 	void printMenu(Menu menu);
 	void printDead(Vector2i snake_pos);
