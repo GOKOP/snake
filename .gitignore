@@ -1,2 +1,6 @@
 snake
 obj
+
+# coc.nvim+clangd related things
+compile_commands.json
+.cache
