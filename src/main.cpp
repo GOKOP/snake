@@ -28,7 +28,7 @@ void clearInput(WINDOW* win);
 Menu initMainMenu();
 
 int main(int argc, char* argv[]) {
-	Vector2i win_size;
+	Vector2i win_size{0, 0};
 	int snake_delay = 0;
 	int min_fruits  = 0;
 	int beg_length  = 0;
@@ -172,10 +172,10 @@ int setSnakeDelay(char* delay_str) {
 
 		if(delay<0) delay = 0;
 	} // else set based on predefined speed
-	else if(delay_string == "1") delay = fixed_config::speed1_ms;
-	else if(delay_string == "2") delay = fixed_config::speed2_ms;
-	else if(delay_string == "3") delay = fixed_config::speed3_ms;
-	else if(delay_string == "4") delay = fixed_config::speed4_ms;
+	else if(delay_string == "1") delay = static_config::speed1_ms;
+	else if(delay_string == "2") delay = static_config::speed2_ms;
+	else if(delay_string == "3") delay = static_config::speed3_ms;
+	else if(delay_string == "4") delay = static_config::speed4_ms;
 
 	return delay;
 }
@@ -303,7 +303,7 @@ void clearInput(WINDOW* win) {
 }
 
 Menu initMainMenu() {
-	Menu menu("[cool name here]", fixed_config::version);
+	Menu menu("[cool name here]", static_config::version);
 	menu.addOption(MenuOption{"Start Game", RUNNING});
 	menu.addOption(MenuOption{"Quit", QUIT});
 
