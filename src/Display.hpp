@@ -30,6 +30,7 @@ class Display {
 
 public:
 	Display(Vector2i win_size);
+	~Display() { endwin(); }
 
 	WINDOW* getWindow();
 

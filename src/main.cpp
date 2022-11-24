@@ -50,8 +50,10 @@ int main(int argc, char* argv[]) {
 	Snake snake({win_size.x/2, win_size.y/2}, RIGHT, beg_length);
 	FruitManager fruit_manager(min_fruits);
 	GameState state = MAIN_MENU;
+
+	bool running = true;
 	
-	while(true) {
+	while(running) {
 		display.checkTermSize();
 
 		if(state == MAIN_MENU) {
@@ -78,12 +80,10 @@ int main(int argc, char* argv[]) {
 			processGameInput(display.getWindow(), snake, state);
 		}
 		else if(state == QUIT) {
-			endwin();
-			exit(0);
+			running = false;
 		}
 	}
 
-	endwin();
 	return 0;
 }
 
