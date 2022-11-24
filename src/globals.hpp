@@ -1,6 +1,6 @@
 #include <string>
 
-namespace fixed_config {
+namespace static_config {
 	const std::string version = "v1.1.2";
 
 	const int speed1_ms = 150;
