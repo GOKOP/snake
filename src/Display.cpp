@@ -92,18 +92,24 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 	werase(win);
 
 	color_border.enable(win);
-	wborder(win, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER, BORDER);
+
+	wborder(
+		win, 
+		tiles::border, tiles::border, tiles::border, tiles::border, 
+		tiles::border, tiles::border, tiles::border, tiles::border
+	);
+
 	color_border.disable(win);
 
 	for(int i=0; i<fruits.size(); ++i) {
-		printChar(fruits[i].pos, FRUIT, color_fruit);
+		printChar(fruits[i].pos, tiles::fruit, color_fruit);
 	}
 	
 	for(int i=0; i<snake.getBodySize(); ++i) {
 		if(i==0)
-			printChar(snake.getBodyPiecePos(i), SNAKE_HEAD, color_snake);
+			printChar(snake.getBodyPiecePos(i), tiles::snake_head, color_snake);
 		else 
-			printChar(snake.getBodyPiecePos(i), SNAKE_BODY, color_snake); 
+			printChar(snake.getBodyPiecePos(i), tiles::snake_body, color_snake); 
 	} 
 
 	printString({1, win_size.y-1}, "Body: " + std::to_string( snake.getBodySize() ), color_scores);
@@ -112,7 +118,7 @@ void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
 }
 
 void Display::printDead(Vector2i snake_pos) {
-	printChar(snake_pos, SNAKE_DEAD, color_dead);
+	printChar(snake_pos, tiles::snake_dead, color_dead);
 	wrefresh(win);
 }
 

@@ -9,12 +9,13 @@
 #include "Menu.hpp"
 #include "Vector2i.hpp"
 
-// macros for used characters
-#define SNAKE_HEAD '@'
-#define SNAKE_DEAD 'X'
-#define SNAKE_BODY 'o'
-#define BORDER '#'
-#define FRUIT '*'
+namespace tiles {
+	const char snake_head = '@';
+	const char snake_dead = 'X';
+	const char snake_body = 'o';
+	const char border = '#';
+	const char fruit = '*';
+}
 
 class Display {
 	WINDOW* win;
