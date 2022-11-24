@@ -22,10 +22,8 @@ void Display::colorInit() {
 	if(has_colors()) {
 		start_color();
 
-		if(use_default_colors() != ERR)
-			COLOR_BACK = -1; // ncurses default term color
-		else
-			COLOR_BACK = COLOR_BLACK;
+		if(use_default_colors() != ERR) COLOR_BACK = -1; // ncurses default term color
+		else COLOR_BACK = COLOR_BLACK;
 
 		color_snake  = ColorPair(1, COLOR_GREEN, COLOR_BACK, true);
 		color_dead   = ColorPair(2, COLOR_RED, COLOR_BACK, true);
