@@ -1,28 +1,28 @@
 #include "Snake.hpp"
 
-Snake::Snake(Vector2i start_pos, Direction start_direction, int size) {
-	body.push_back(start_pos);
-	how_fed = size;
-	head_direction = start_direction;
-}
+Snake::Snake(Vector2i start_pos, Direction start_direction, int size):
+	body({start_pos}),
+	how_fed(size),
+	head_direction(start_direction)
+{}
 
-int Snake::getBodySize() {
+int Snake::getBodySize() const {
 	return body.size();
 }
 
-Vector2i Snake::getBodyPiecePos(int index) {
+Vector2i Snake::getBodyPiecePos(int index) const {
 	return body[index];
 }
 
-Vector2i Snake::getHeadPos() {
+Vector2i Snake::getHeadPos() const {
 	return body[0];
 }
 
-Direction Snake::getDirection() {
+Direction Snake::getDirection() const {
 	return head_direction;
 }
 
-int Snake::howFed() {
+int Snake::howFed() const {
 	return how_fed;
 }
 
