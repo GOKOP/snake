@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Enums.hpp"
+#include "enums.hpp"
 #include "Vector2i.hpp"
 
 class Snake {

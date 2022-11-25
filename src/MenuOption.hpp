@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "Enums.hpp"
+#include "enums.hpp"
 
 struct MenuOption {
 	std::string name;

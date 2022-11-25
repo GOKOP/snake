@@ -8,7 +8,7 @@
 #include "Snake.hpp"
 #include "Display.hpp"
 #include "FruitManager.hpp"
-#include "Enums.hpp"
+#include "enums.hpp"
 #include "Menu.hpp"
 #include "globals.hpp"
 #include "Vector2i.hpp"
@@ -47,39 +47,39 @@ int main(int argc, char* argv[]) {
 	Display display(win_size);
 
 	Menu main_menu = initMainMenu();
-	Snake snake({win_size.x/2, win_size.y/2}, RIGHT, beg_length);
+	Snake snake({win_size.x/2, win_size.y/2}, Direction::Right, beg_length);
 	FruitManager fruit_manager(min_fruits);
-	GameState state = MAIN_MENU;
+	GameState state = GameState::MainMenu;
 
 	bool running = true;
 	
 	while(running) {
 		display.checkTermSize();
 
-		if(state == MAIN_MENU) {
+		if(state == GameState::MainMenu) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
 			millisleep(10); // ensures that the loop won't pointlessly take the whole cpu
 		}
-		else if(state == LOST) {
+		else if(state == GameState::Lost) {
 			display.printDead(snake.getHeadPos());
 			millisleep(2000);
 			clearInput(display.getWindow());
 			gameReset(snake, fruit_manager, win_size, beg_length);
-			state = MAIN_MENU;
+			state = GameState::MainMenu;
 		}
-		else if(state == CANCELED) {
+		else if(state == GameState::Canceled) {
 			gameReset(snake, fruit_manager, win_size, beg_length);
-			state = MAIN_MENU;
+			state = GameState::MainMenu;
 		}
-		else if(state == RUNNING) {
+		else if(state == GameState::Running) {
 			// weird order ensures that state changed by processGameInput() won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
 			display.printGame(snake, fruit_manager.getFruits());
 			millisleep(snake_delay);
 			processGameInput(display.getWindow(), snake, state);
 		}
-		else if(state == QUIT) {
+		else if(state == GameState::Quit) {
 			running = false;
 		}
 	}
@@ -209,7 +209,7 @@ int setBegLength(char* len_str) {
 void gameReset(Snake& snake, FruitManager& fruit_manager, Vector2i win_size, int beg_len) {
 	int min_fruits = fruit_manager.getMinFruits();
 
-	snake          = Snake({win_size.x/2, win_size.y/2}, RIGHT, beg_len);
+	snake          = Snake({win_size.x/2, win_size.y/2}, Direction::Right, beg_len);
 	fruit_manager  = FruitManager(min_fruits);
 }
 
@@ -242,15 +242,15 @@ GameState advanceGame(Snake &snake, Vector2i win_size, FruitManager& fruit_manag
 
 	if(snake.getHeadPos().x==0 || snake.getHeadPos().y==0 ||
 	   snake.getHeadPos().x==win_size.x-1 || snake.getHeadPos().y==win_size.y-1)
-		return LOST;
+		return GameState::Lost;
 	else {
 		for(int i=1; i<snake.getBodySize(); ++i) {
 			if(snake.getHeadPos() == snake.getBodyPiecePos(i))
-				return LOST;
+				return GameState::Lost;
 		}
 	}
 
-	return RUNNING;
+	return GameState::Running;
 }
 
 void processGameInput(WINDOW* win, Snake& snake, GameState& state) {
@@ -258,21 +258,21 @@ void processGameInput(WINDOW* win, Snake& snake, GameState& state) {
 		case KEY_UP:
 		case 'w':
 		case 'k':
-			if(snake.getDirection() != DOWN) snake.turn(UP); break;
+			if(snake.getDirection() != Direction::Down) snake.turn(Direction::Up); break;
 		case KEY_DOWN:
 		case 's':
 		case 'j':
-			if(snake.getDirection() != UP) snake.turn(DOWN); break;
+			if(snake.getDirection() != Direction::Up) snake.turn(Direction::Down); break;
 		case KEY_LEFT:
 		case 'a':
 		case 'h':
-			if(snake.getDirection() != RIGHT) snake.turn(LEFT); break;
+			if(snake.getDirection() != Direction::Right) snake.turn(Direction::Left); break;
 		case KEY_RIGHT:
 		case 'd':
 		case 'l':
-			if(snake.getDirection() != LEFT) snake.turn(RIGHT); break;
+			if(snake.getDirection() != Direction::Left) snake.turn(Direction::Right); break;
 		case 'q':
-			state = CANCELED;
+			state = GameState::Canceled;
 		default:
 			break;
 	}
@@ -283,18 +283,18 @@ void processMenuInput(WINDOW* win, Menu& menu, GameState& state) {
 		case KEY_UP:
 		case 'w':
 		case 'k':
-			menu.moveSelection(UP); break;
+			menu.moveSelection(Direction::Up); break;
 		case KEY_DOWN:
 		case 's':
 		case 'j':
-			menu.moveSelection(DOWN); break;
+			menu.moveSelection(Direction::Down); break;
 		case '\n':
 		case KEY_RIGHT:
 		case 'd':
 		case 'l':
 			state = menu.getOption(menu.getSelection()).target_state; break;
 		case 'q':
-			state = QUIT;
+			state = GameState::Quit;
 	}
 }
 
@@ -304,8 +304,8 @@ void clearInput(WINDOW* win) {
 
 Menu initMainMenu() {
 	Menu menu("[cool name here]", static_config::version);
-	menu.addOption(MenuOption{"Start Game", RUNNING});
-	menu.addOption(MenuOption{"Quit", QUIT});
+	menu.addOption(MenuOption{"Start Game", GameState::Running});
+	menu.addOption(MenuOption{"Quit", GameState::Quit});
 
 	return menu;
 }

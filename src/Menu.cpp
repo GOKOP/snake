@@ -31,10 +31,10 @@ void Menu::addOption(const MenuOption& option) {
 }
 
 void Menu::moveSelection(Direction dir) {
-	if(dir==RIGHT || dir==LEFT) return;
+	if(dir==Direction::Right || dir==Direction::Left) return;
 
-	if(dir==UP)        --selected_index;
-	else if(dir==DOWN) ++selected_index;
+	if(dir==Direction::Up)        --selected_index;
+	else if(dir==Direction::Down) ++selected_index;
 
 	if(selected_index < 0)
 		selected_index = options.size()-1;

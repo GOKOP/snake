@@ -1,17 +1,17 @@
 #pragma once
 
-enum GameState {
-	NONE,
-	MAIN_MENU,
-	RUNNING,
-	LOST,
-	QUIT,
-	CANCELED
+enum class GameState {
+	None,
+	MainMenu,
+	Running,
+	Lost,
+	Quit,
+	Canceled
 };
 
-enum Direction {
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT
+enum class Direction {
+	Up,
+	Down,
+	Left,
+	Right
 };

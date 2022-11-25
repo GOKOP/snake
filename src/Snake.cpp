@@ -50,13 +50,13 @@ void Snake::turn(Direction new_direction) {
 
 void Snake::move_head() {
 	switch(head_direction) {
-		case UP:
+		case Direction::Up:
 			body[0] = {body[0].x, body[0].y-1}; break;
-		case DOWN:
+		case Direction::Down:
 			body[0] = {body[0].x, body[0].y+1}; break;
-		case LEFT:
+		case Direction::Left:
 			body[0] = {body[0].x-1, body[0].y}; break;
-		case RIGHT:
+		case Direction::Right:
 			body[0] = {body[0].x+1, body[0].y}; break;
 		default:
 			break;
