@@ -74,7 +74,7 @@ void Display::printChar(Vector2i pos, char ch, ColorPair color) {
 	color.disable(win);
 }
 
-void Display::printString(Vector2i pos, std::string str, ColorPair color) {
+void Display::printString(Vector2i pos, std::string_view str, ColorPair color) {
 	Vector2i max_pos;
 	getmaxyx(win, max_pos.y, max_pos.x);
 
@@ -82,11 +82,11 @@ void Display::printString(Vector2i pos, std::string str, ColorPair color) {
 
 	if(pos.x>=0 && pos.x+str.size()<max_pos.x && pos.y>=0 && pos.y<max_pos.y) {
 		wmove(win, pos.y, pos.x);
-		waddstr(win, str.c_str());
+		waddstr(win, str.data());
 	}
 }
 
-void Display::printGame(Snake snake, std::vector<Fruit> fruits) {
+void Display::printGame(Snake snake, const std::vector<Fruit>& fruits) {
 	werase(win);
 
 	color_border.enable(win);

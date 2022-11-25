@@ -38,8 +38,8 @@ public:
 	void colorInit();
 	void windowInit();
 	void printChar(Vector2i pos, char ch, ColorPair color=ColorPair());
-	void printString(Vector2i pos, std::string str, ColorPair color=ColorPair());
-	void printGame(Snake snake, std::vector<Fruit> fruits);
+	void printString(Vector2i pos, std::string_view str, ColorPair color=ColorPair());
+	void printGame(Snake snake, const std::vector<Fruit>& fruits);
 	void printMenu(Menu menu);
 	void printDead(Vector2i snake_pos);
 	void checkTermSize();
