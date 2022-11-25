@@ -1,9 +1,12 @@
 #include <iostream>
 #include <curses.h>
+#include <string_view>
 #include <unistd.h>
 #include <cstdlib>
 #include <ctype.h>
 #include <string>
+#include <optional>
+#include <charconv>
 
 #include "Snake.hpp"
 #include "Display.hpp"
@@ -15,10 +18,10 @@
 
 void handleOptions(int argc, char* argv[], Vector2i& win_size, int& snake_delay, int& min_fruits, int& beg_length);
 void printHelp();
-Vector2i setWinSize(char* size_str);
-int setSnakeDelay(char* delay_str);
-int setMinFruits(char* num_str);
-int setBegLength(char* len_str);
+Vector2i setWinSize(std::string_view size_str);
+int setSnakeDelay(std::string_view delay_str);
+int setMinFruits(std::string_view num_str);
+int setBegLength(std::string_view len_str);
 void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, Vector2i win_size, int beg_len);
 GameState advanceGame(Snake &snake, Vector2i win_size, FruitManager& fruit_manager);
@@ -129,26 +132,26 @@ void printHelp() {
 	exit(0);
 }
 
-Vector2i setWinSize(char* size_str) {
-	std::string width_str = "";
-	std::string height_str = "";
-	bool read_width = true;
+std::optional<int> stringToInt(std::string_view str) {
+	int value;
 
-	int i = 0;
-	while(size_str[i] != '\0') {
-		if(size_str[i] == 'x') read_width = false;
-		else if(read_width) width_str += size_str[i];
-		else height_str += size_str[i];
-		++i;
-	}
+	const char* begin = str.data();
+	const char* end = str.data() + str.size();
 
-	int width  = 0;
-	int height = 0;
+	auto result = std::from_chars(begin, end, value);
+	if(result.ec != std::errc() || result.ptr != end) return {};
+	else return value;
+}
 
-	try {
-		width  = std::stoi(width_str);
-		height = std::stoi(height_str);
-	} catch(...){}; // no catching needed here
+Vector2i setWinSize(std::string_view size_str) {
+	auto x_pos = size_str.find('x');
+	if(x_pos == std::string_view::npos || x_pos == size_str.size() - 1) return {0, 0};
+
+	auto width_str = size_str.substr(0, x_pos);
+	auto height_str = size_str.substr(x_pos + 1);
+
+	int width = stringToInt(width_str).value_or(0);
+	int height = stringToInt(height_str).value_or(0);
 
 	return {width, height};
 }
@@ -157,52 +160,34 @@ void millisleep(int millisec) {
 	usleep(millisec*1000);
 }
 
-int setSnakeDelay(char* delay_str) {
+int setSnakeDelay(std::string_view delay_str) {
 	int delay = 0;
 
-	std::string delay_string(delay_str);
-	size_t size = delay_string.size();
+	auto ms_pos = delay_str.find("ms");
+
 	// if given miliseconds, set the delay directly
-	if(size >= 3 && delay_string[size-2]=='m' && delay_string[size-1]=='s') {
-		delay_string.erase(size-2);
-
-		try {
-			delay = std::stoi(delay_string);
-		} catch(...){};
-
-		if(delay<0) delay = 0;
+	if(ms_pos != std::string_view::npos && ms_pos == delay_str.size() - 2) {
+		delay_str.remove_suffix(2);
+		delay = stringToInt(delay_str).value_or(0);
+		if(delay < 0) delay = 0;
 	} // else set based on predefined speed
-	else if(delay_string == "1") delay = static_config::speed1_ms;
-	else if(delay_string == "2") delay = static_config::speed2_ms;
-	else if(delay_string == "3") delay = static_config::speed3_ms;
-	else if(delay_string == "4") delay = static_config::speed4_ms;
+	else if(delay_str == "1") delay = static_config::speed1_ms;
+	else if(delay_str == "2") delay = static_config::speed2_ms;
+	else if(delay_str == "3") delay = static_config::speed3_ms;
+	else if(delay_str == "4") delay = static_config::speed4_ms;
 
 	return delay;
 }
 
-int setMinFruits(char* num_str) {
-	int min_num = 0;
-	std::string num_string(num_str);
-	
-	try {
-		min_num = std::stoi(num_string);
-	} catch(...){};
-	
+int setMinFruits(std::string_view num_str) {
+	int min_num = stringToInt(num_str).value_or(0);
 	if(min_num<0) min_num = 0;
-
 	return min_num;
 }
 
-int setBegLength(char* len_str) {
-	int len_num = 0;
-	std::string len_string(len_str);
-
-	try {
-		len_num = std::stoi(len_str);
-	} catch(...){};
-
+int setBegLength(std::string_view len_str) {
+	int len_num = stringToInt(len_str).value_or(0);
 	if(len_num<0) len_num = 0;
-
 	return len_num;
 }
 
