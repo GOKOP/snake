@@ -7,6 +7,8 @@
 #include <string>
 #include <optional>
 #include <charconv>
+#include <thread>
+#include <chrono>
 
 #include "Snake.hpp"
 #include "Display.hpp"
@@ -22,7 +24,6 @@ Vector2i setWinSize(std::string_view size_str);
 int setSnakeDelay(std::string_view delay_str);
 int setMinFruits(std::string_view num_str);
 int setBegLength(std::string_view len_str);
-void millisleep(int millisec);
 void gameReset(Snake& snake, FruitManager& fruit_manager, Vector2i win_size, int beg_len);
 GameState advanceGame(Snake &snake, Vector2i win_size, FruitManager& fruit_manager);
 void processGameInput(WINDOW* win, Snake& snake, GameState& state);
@@ -62,11 +63,12 @@ int main(int argc, char* argv[]) {
 		if(state == GameState::MainMenu) {
 			processMenuInput(display.getWindow(), main_menu, state);
 			display.printMenu(main_menu);
-			millisleep(10); // ensures that the loop won't pointlessly take the whole cpu
+			// ensures the loop doesn't eat 100% of a cpu core pointlessly
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		}
 		else if(state == GameState::Lost) {
 			display.printDead(snake.getHeadPos());
-			millisleep(2000);
+			std::this_thread::sleep_for(std::chrono::seconds(2));
 			clearInput(display.getWindow());
 			gameReset(snake, fruit_manager, win_size, beg_length);
 			state = GameState::MainMenu;
@@ -79,7 +81,7 @@ int main(int argc, char* argv[]) {
 			// weird order ensures that state changed by processGameInput() won't be overwritten by advanceGame()
 			state = advanceGame(snake, win_size, fruit_manager);
 			display.printGame(snake, fruit_manager.getFruits());
-			millisleep(snake_delay);
+			std::this_thread::sleep_for(std::chrono::milliseconds(snake_delay));
 			processGameInput(display.getWindow(), snake, state);
 		}
 		else if(state == GameState::Quit) {
@@ -154,10 +156,6 @@ Vector2i setWinSize(std::string_view size_str) {
 	int height = stringToInt(height_str).value_or(0);
 
 	return {width, height};
-}
-
-void millisleep(int millisec) {
-	usleep(millisec*1000);
 }
 
 int setSnakeDelay(std::string_view delay_str) {
