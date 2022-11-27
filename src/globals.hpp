@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "Vector2i.hpp"
 
 namespace static_config {
 	const std::string version = "v1.1.2";
@@ -19,7 +20,7 @@ namespace static_config {
 
 namespace default_config {
 	const int min_fruits = 1;
-	const int width = 40;
-	const int height = 20;
+	const Vector2i window_size = {40, 20};
 	const int snake_length = 3;
+	const int snake_delay = static_config::speed2_ms;
 }
