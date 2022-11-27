@@ -17,10 +17,3 @@ namespace static_config {
 	const char border = '#';
 	const char fruit = '*';
 }
-
-namespace default_config {
-	const int min_fruits = 1;
-	const Vector2i window_size = {40, 20};
-	const int snake_length = 3;
-	const int snake_delay = static_config::speed2_ms;
-}

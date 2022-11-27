@@ -1,5 +1,4 @@
 #include "CommandConfig.hpp"
-#include "globals.hpp"
 #include <unistd.h>
 #include <charconv>
 
