@@ -11,7 +11,7 @@
 #include "Vector2i.hpp"
 #include "CommandConfig.hpp"
 
-const std::string version = "1.1.2";
+const std::string_view version = "1.1.2";
 
 void printHelp();
 void gameReset(Snake& snake, FruitManager& fruit_manager, const CommandConfig& config);
