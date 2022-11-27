@@ -75,10 +75,10 @@ std::optional<int> CommandConfig::readSnakeDelay(std::string_view delay_str) con
 		delay_str.remove_suffix(2);
 		delay = stringToPositiveInt(delay_str).value_or(0);
 	} // else set based on predefined speed
-	else if(delay_str == "1") delay = static_config::speed1_ms;
-	else if(delay_str == "2") delay = static_config::speed2_ms;
-	else if(delay_str == "3") delay = static_config::speed3_ms;
-	else if(delay_str == "4") delay = static_config::speed4_ms;
+	else if(delay_str == "1") delay = speed_definitions::speed1_ms;
+	else if(delay_str == "2") delay = speed_definitions::speed2_ms;
+	else if(delay_str == "3") delay = speed_definitions::speed3_ms;
+	else if(delay_str == "4") delay = speed_definitions::speed4_ms;
 
 	if(delay <= 0) return {};
 	return delay;

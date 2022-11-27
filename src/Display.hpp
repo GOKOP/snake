@@ -8,7 +8,14 @@
 #include "ColorPair.hpp"
 #include "Menu.hpp"
 #include "Vector2i.hpp"
-#include "globals.hpp"
+
+namespace tile_definitions {
+	const char snake_head = '@';
+	const char snake_dead = 'X';
+	const char snake_body = 'o';
+	const char border = '#';
+	const char fruit = '*';
+}
 
 class Display {
 	WINDOW* win;

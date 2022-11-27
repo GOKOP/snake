@@ -3,13 +3,19 @@
 #include <string_view>
 #include <optional>
 #include "Vector2i.hpp"
-#include "globals.hpp"
+
+namespace speed_definitions {
+	const int speed1_ms = 150;
+	const int speed2_ms = 100;
+	const int speed3_ms = 50;
+	const int speed4_ms = 30;
+}
 
 namespace default_config {
 	const int min_fruits = 1;
 	const Vector2i window_size = {40, 20};
 	const int snake_length = 3;
-	const int snake_delay = static_config::speed2_ms;
+	const int snake_delay = speed_definitions::speed2_ms;
 }
 
 class CommandConfig {

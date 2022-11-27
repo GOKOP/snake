@@ -8,9 +8,10 @@
 #include "FruitManager.hpp"
 #include "enums.hpp"
 #include "Menu.hpp"
-#include "globals.hpp"
 #include "Vector2i.hpp"
 #include "CommandConfig.hpp"
+
+const std::string version = "1.1.2";
 
 void printHelp();
 void gameReset(Snake& snake, FruitManager& fruit_manager, const CommandConfig& config);
@@ -205,7 +206,7 @@ void clearInput(WINDOW* win) {
 }
 
 Menu initMainMenu() {
-	Menu menu("[cool name here]", static_config::version);
+	Menu menu("[cool name here]", version);
 	menu.addOption(MenuOption{"Start Game", GameState::Running});
 	menu.addOption(MenuOption{"Quit", GameState::Quit});
 

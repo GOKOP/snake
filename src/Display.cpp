@@ -93,21 +93,21 @@ void Display::printGame(Snake snake, const std::vector<Fruit>& fruits) {
 
 	wborder(
 		win, 
-		static_config::border, static_config::border, static_config::border, static_config::border, 
-		static_config::border, static_config::border, static_config::border, static_config::border
+		tile_definitions::border, tile_definitions::border, tile_definitions::border, tile_definitions::border, 
+		tile_definitions::border, tile_definitions::border, tile_definitions::border, tile_definitions::border
 	);
 
 	color_border.disable(win);
 
 	for(int i=0; i<fruits.size(); ++i) {
-		printChar(fruits[i].pos, static_config::fruit, color_fruit);
+		printChar(fruits[i].pos, tile_definitions::fruit, color_fruit);
 	}
 	
 	for(int i=0; i<snake.getBodySize(); ++i) {
 		if(i==0)
-			printChar(snake.getBodyPiecePos(i), static_config::snake_head, color_snake);
+			printChar(snake.getBodyPiecePos(i), tile_definitions::snake_head, color_snake);
 		else 
-			printChar(snake.getBodyPiecePos(i), static_config::snake_body, color_snake); 
+			printChar(snake.getBodyPiecePos(i), tile_definitions::snake_body, color_snake); 
 	} 
 
 	printString({1, win_size.y-1}, "Body: " + std::to_string( snake.getBodySize() ), color_scores);
@@ -116,7 +116,7 @@ void Display::printGame(Snake snake, const std::vector<Fruit>& fruits) {
 }
 
 void Display::printDead(Vector2i snake_pos) {
-	printChar(snake_pos, static_config::snake_dead, color_dead);
+	printChar(snake_pos, tile_definitions::snake_dead, color_dead);
 	wrefresh(win);
 }
 
