@@ -1,6 +1,4 @@
 #include "FruitManager.hpp"
-#include <random>
-#include <algorithm>
 
 FruitManager::FruitManager(int min_fruits): min_fruits(min_fruits) {}
 

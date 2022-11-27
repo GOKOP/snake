@@ -2,9 +2,6 @@
 #include <curses.h>
 #include <string_view>
 #include <unistd.h>
-#include <cstdlib>
-#include <ctype.h>
-#include <string>
 #include <optional>
 #include <charconv>
 #include <thread>
