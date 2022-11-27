@@ -11,11 +11,9 @@ class CommandConfig {
 	int beg_length;
 	bool is_ok;
 
-	std::optional<int> stringToInt(std::string_view str) const;
+	std::optional<int> stringToPositiveInt(std::string_view str) const;
 	std::optional<Vector2i> readWinSize(std::string_view size_str) const;
 	std::optional<int> readSnakeDelay(std::string_view delay_str) const;
-	std::optional<int> readMinFruits(std::string_view num_str) const;
-	std::optional<int> readBegLength(std::string_view len_str) const;
 
 public:
 
